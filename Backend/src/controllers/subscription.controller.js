@@ -6,13 +6,12 @@ import { Subscription } from "../models/subscription.model.js";
 import { User } from "../models/user.model.js";
 
 const toggleSubscription = asyncHandler( async(req, res) => {
-    const{ channelId } = req.params
-
-    if(!isValidObjectId(channelId) || !channelId.trim()) {
+    const{ userId } = req.params
+    if(!isValidObjectId(userId) || !userId.trim()) {
         throw new ApiError(200, "Channel Id is invalid")
     }
     
-    const channel = await User.findById(channelId)
+    const channel = await User.findById(userId)
 
     if(!channel) {
         throw new ApiError(400, "Channel does not exists")
@@ -21,7 +20,7 @@ const toggleSubscription = asyncHandler( async(req, res) => {
     // Check channel is subscribed by user or not
     const isSubscribed = await Subscription.findOne({
         subscriber: req.user?._id,
-        channel: channelId.trim()
+        channel: userId.trim()
     })
 
     let isSubscribedOrNot;
@@ -31,7 +30,7 @@ const toggleSubscription = asyncHandler( async(req, res) => {
             // Unsubscribe
             await Subscription.deleteOne({
                 subscriber: req.user?._id,
-                channel: channelId.trim()
+                channel: userId.trim()
             })
     
             isSubscribedOrNot = false;
@@ -40,7 +39,7 @@ const toggleSubscription = asyncHandler( async(req, res) => {
             // subscribe
             await Subscription.create({
                 subscriber: req.user?._id,
-                channel: channelId.trim()
+                channel: userId.trim()
             })
     
             isSubscribedOrNot = true;
@@ -50,11 +49,10 @@ const toggleSubscription = asyncHandler( async(req, res) => {
     }
 
     let message = isSubscribedOrNot? "Channel subscribed successfully" : "Channel unsubscribed successfully"
-
     const channelDetails = await User.aggregate([
         {
             $match: {
-                _id: new mongoose.Types.ObjectId(channelId)
+                _id: new mongoose.Types.ObjectId(userId)
             }
         },
         {
@@ -194,8 +192,79 @@ const getUserChannelSubscribers = asyncHandler( async(req, res) => {
     .json(new ApiResponse(200, subscribers, "User subscribers fetched successfully"))
 } )
 
+const isSubscribed = asyncHandler( async(req, res) => {
+    const{ userId } = req.params
+
+    if(!isValidObjectId(userId) || !userId.trim()) {
+        throw new ApiError(200, "Channel Id is invalid")
+    }
+    
+    const channel = await User.findById(userId)
+
+    if(!channel) {
+        throw new ApiError(400, "Channel does not exists")
+    }
+
+    const subscribers = await Subscription.aggregate([
+        {
+            $match: {
+                channel: new mongoose.Types.ObjectId(userId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "subscriber",
+                foreignField: "_id",
+                as: "subscriberDetails",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                subscribers: {
+                    $first: "$subscriberDetails"
+                }
+            }
+        },
+        {
+            $project: {
+                subscribers: 1,
+                _id: 0
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: "$subscribers"
+            }
+        }
+    ])
+
+    if(!subscribers) {
+        throw new ApiError(400, "Some went wrong while fetching subscribed channel")
+    }
+    const curUser = req.user;
+    let subscribed = false;
+    subscribers.map((subscriber) => {
+        if((curUser._id).equals(subscriber._id)) {
+            subscribed = true;
+        }
+    })
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, subscribed, "Fetched successfully"))
+} )
+
 export {
     getSubscribedChannels,
     getUserChannelSubscribers,
-    toggleSubscription
+    toggleSubscription,
+    isSubscribed
 }

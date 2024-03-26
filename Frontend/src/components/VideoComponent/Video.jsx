@@ -1,20 +1,34 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import VideoPlayer from '../VideoPlayer';
 import Container from '../container/Container';
 import Footer from './Footer';
-import Header from '../Header'
+import Header from '../Header';
+import UseReactQuery from '../../Custom_Hook/useReactQuery.js';
 import AllComment from './AllComment';
 import CommentForm from './CommentForm'
+import ErrorPage from '../ErrorPage.jsx';
+import LoaderPage from '../LoadingPage.jsx';
 
 function Video() {
+    const[isOwner, setIsOwner] = useState(false)
+    const[curUser, setCurUser] = useState(null)
+    const[subscribed, setSubscribed] = useState(false)
+    const videoObj = UseReactQuery('/api/v1/videos/home-videos', 'GET')
     const location = useLocation();
     const videoId = location.state;
+    const videoInfo = UseReactQuery(`/api/v1/videos/c/${videoId}`, 'GET')
+    const userId = videoInfo?.response?.owner?._id;
     const [videoData, setVideoData] = useState(null);
     const token = useSelector(state => state.accessTokenSlice.token);
     const[comments, setComments] = useState([])
+    const navigate = useNavigate()
 
+    const handleClick = (videoId) => {
+        navigate(`/v/${videoId}`, { state: videoId })
+    }
+    
     const onAddComment = useCallback(async (commentContent) => {
         try {
             const response = await fetch(`http://localhost:5000/api/v1/comments/d/${videoId}`, {
@@ -83,6 +97,92 @@ function Video() {
         fetchVideoData();
         fetchComments();
     }, [fetchVideoData, fetchComments]);
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    if (userId) {
+                        let response = await fetch(`/api/v1/subscriptions/s/${userId}`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
+                        });
+        
+                        if (response.ok) {
+                            const data = await response.json();
+                            setSubscribed(data.data); 
+                        } else {
+                            console.error('Failed to fetch subscription status');
+                        }
+
+                        response = await fetch(`/api/v1/users/current-user`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            setCurUser(data?.data?._id)
+                            if(curUser === userId) {
+                                setIsOwner(true)
+                            }
+                        } else {
+                            console.error('Failed to fetch current user');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching subscription status:', error);
+                }
+            }
+        )()
+    }, [userId, token]);
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    if (userId && curUser) {
+                        if(userId === curUser) {
+                            setIsOwner(true)
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching current user:', error);
+                }
+            }
+        )()
+    }, [curUser]);
+
+    const handleSubscribeButton = async () => {
+        console.log("Handling subscription");
+        let response = await fetch(`/api/v1/subscriptions/c/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        if(response.ok) {
+            let response2 = await fetch(`/api/v1/subscriptions/s/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (response2.ok) {
+                const data = await response2.json();
+                setSubscribed(data.data); 
+            } else {
+                console.error('Failed to fetch subscription status');
+            }
+        }
+    }
+
     return (
         <Container>
             <div className='flex flex-col items-center'>
@@ -102,7 +202,7 @@ function Video() {
                     {/* Video data */}
                     {videoData && 
                         <div>
-                            <Footer videoData={videoData} />
+                            <Footer isOwner={isOwner} videoData={videoData} subscribed={subscribed} handleSubscribeButton={handleSubscribeButton} />
                         </div>
                     }
 
@@ -121,7 +221,25 @@ function Video() {
                         }
                     </div>
                 </div>
-                <div className=' overflow-y-auto max-h-[100vh] bg-red-500 w-1/2'>
+                <div className=' overflow-y-auto max-h-[100vh] w-1/2'>
+                    {videoObj.error && <ErrorPage/>}
+                    {videoObj.loading && <LoaderPage />}
+                    {   
+                        !videoObj.error && !videoObj.loading &&
+                        videoObj.response.map((video) => (
+                            <div key={video._id} onClick={() => handleClick(video._id)} className='p-2 flex flex-wrap justify-start gap-2 w-full h-32 bg-gray-100 m-2'>
+                                    <img className='h-28 w-40 rounded-md' src={video.thumbnail} />
+
+                                    <div>
+                                        {/* title */}
+                                        <h1 className='text-xl font-semibold'>{video.title}</h1>
+                                        {/* channel owner */}
+                                        <h1 className='text-gray-500'>{video.fullName}</h1>
+                                        {/* views */}
+                                        <p className='text-gray-500'>{video.views} views</p>
+                                    </div>
+                            </div>
+                    ))}
                     
                 </div>
             </div>

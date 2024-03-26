@@ -153,7 +153,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    
     if(!videoId?.trim()) {
         throw new ApiError(400, "No results")
     }

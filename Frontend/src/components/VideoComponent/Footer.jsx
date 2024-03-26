@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Button from '../Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { useSelector } from 'react-redux';
 
-function Footer({videoData}) {
+function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     const[boolLike, setBoolLike] = useState(null)
     const[boolDisLike, setBoolDisLike] = useState(null)
     const token = useSelector(state => state.accessTokenSlice.token);
-
     const fetchLikeData = useCallback( async() => {
         const res = await fetch(`http://localhost:5000/api/v1/likes/boolLike/b/${videoData?._id}`,
         {
@@ -37,7 +36,6 @@ function Footer({videoData}) {
             throw new Error("Something went wrong while fetching dislike information")
         }
         const jsonRes = await res.json()
-        console.log("Dislike", jsonRes.data);
         setBoolDisLike(jsonRes.data)
     })
 
@@ -113,9 +111,30 @@ function Footer({videoData}) {
                         </div>
                     </div>
                 </div>
-                <div>
-                   <Button>Subscribe</Button>
-                    {/* <button className='px-5 py-2 font-semibold bg-red-500 rounded-full text-white'>Subscribe</button> */}
+                <div className='flex flex-wrap justify-center items-center gap-3'>
+                    {/* delete and edit option */}
+                    {isOwner &&
+                        <div className='flex flex-wrap gap-2'>
+                            <FontAwesomeIcon className='text-blue-600 bg-gray-300 rounded-full px-4 py-2'  flip="horizontal" icon={faEdit} />
+                            <FontAwesomeIcon className='bg-gray-300 text-red-600 rounded-full px-4 py-2' flip="horizontal" icon={faTrash} />
+                        </div>
+                    }
+                    {/* Subscribe button */}
+                    <div>
+                    {
+                        (!subscribed) ? (
+                            <Button onClick={
+                                handleSubscribeButton
+                            }>Subscribe</Button>
+                        ) : (
+                            <Button onClick = {
+                                handleSubscribeButton
+                            } bgColor="bg-gray-500" >Subscribed</Button>
+                        )
+                    }
+                    
+                        {/* <button className='px-5 py-2 font-semibold bg-red-500 rounded-full text-white'>Subscribe</button> */}
+                    </div>
                 </div>
             </div>
             {/* <h2 className="text-lg text-gray-800">{videoData?.description}</h2> */}
