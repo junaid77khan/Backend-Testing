@@ -121,10 +121,10 @@ function Profile() {
                                         <p className="text-gray-600">Total Views</p>
                                         <p className="text-lg font-semibold">{stats?.response?.totalViews?.viewsCount}</p>
                                     </div>
-                                    <div className="text-center">
+                                    {/* <div className="text-center">
                                         <p className="text-gray-600">Total Likes</p>
                                         <p className="text-lg font-semibold">{stats?.response?.totalLikes?.likesCount}</p>
-                                    </div>
+                                    </div> */}
                                     <div className="text-center">
                                         <p className="text-gray-600">Total Videos</p>
                                         <p className="text-lg font-semibold">{stats?.response?.totalVideos?.videosCount}</p>
@@ -135,7 +135,7 @@ function Profile() {
                         {/* videos section */}
                         {
                             (videos.response.length !== 0) ? (
-                                <div className='flex flex-wrap justify-center items-center w-full gap-4 p-4 bg-gray-200'>
+                                <div className='flex flex-wrap justify-start items-start min-h-screen w-full gap-4 p-4 bg-gray-200'>
                                     {   
                                         videos?.response?.map((video) => (
                                             <div key={video._id} onClick={() => handleClick(video?._id)} className='w-80'>

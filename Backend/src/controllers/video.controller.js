@@ -91,28 +91,20 @@ const getAllDBVideo = asyncHandler( async(req, res) => {
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description} = req.body
-
-    console.log("Our Title", title, "Des", description);
-
     if(
         [title, description].some( (field) => field?.trim === "" )
     ) {
         throw new ApiError(400, "Title and description both are required")
     }
-
+   
     const videoLocalPath = req.files?.videoFile[0]?.path;
     const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
-
-    console.log(req.files?.videoFile[0]);
-
-    console.log("Local path - ", videoLocalPath);
 
     if(
         [videoLocalPath, thumbnailLocalPath].some( (field) => field?.trim === "" )
     ) {
         throw new ApiError(400, "Video and thumbnail both are required")
     }
-
     const videoFile = await uploadOnCloudinary(videoLocalPath)
     const thumbnail = await uploadOnCloudinary(thumbnailLocalPath)
 
@@ -122,7 +114,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
         throw new ApiError(400, "There is some problem in uploading video and thumbnail")
     }
 
-    const duration = videoFile.duration
+    const duration = videoFile?.duration
 
     if(!duration) {
         throw new ApiError(400, "Some problem in getting video URL from cloudinary")

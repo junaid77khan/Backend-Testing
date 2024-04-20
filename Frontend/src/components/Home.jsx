@@ -48,16 +48,19 @@ function Home() {
 
             {/* Video Section */}
             
-            <div className='bg-gray-200 flex flex-wrap justify-center items-center w-full gap-4 p-4'>
+            <div className='bg-gray-200 min-h-screen p-4 w-full'>
                 {videoObj.error && <ErrorPage/>}
                 {videoObj.loading && <LoaderPage />}
+                {videoObj.response.length === 0 && <div className='w-full text-xl font-semibold text-black flex flex-wrap justify-center items-center'>No videos</div>}
                 {   
-                    !videoObj.error && !videoObj.loading &&
-                    videoObj.response.map((video) => (
-                        <div key={video._id} onClick={() => handleClick(video._id)} className='w-80'>
-                            <VideoCard thumbnail={video.thumbnail} title={video.title} fullName={video.fullName}/>
-                        </div>
-                    ))
+                    !videoObj.error && !videoObj.loading && videoObj.response.length !== 0 && 
+                    <div className=' flex flex-wrap items-center justify-center gap-6'>
+                        {videoObj.response.map((video) => (
+                            <div key={video._id} onClick={() => handleClick(video._id)} className='w-80'>
+                                <VideoCard thumbnail={video.thumbnail} title={video.title} fullName={video.fullName}/>
+                            </div>
+                        ))}
+                    </div>
                 }
             </div>
             

@@ -207,7 +207,7 @@ function Video() {
                     }
 
                     {/* Description */}
-                    <div className='bg-gray-100 w-full px-2 py-4 rounded-lg'>
+                    <div className=' w-full px-2 py-4 rounded-lg'>
                        {videoData?.description}
                     </div>
 
@@ -221,7 +221,7 @@ function Video() {
                         }
                     </div>
                 </div>
-                <div className=' overflow-y-auto max-h-[100vh] w-1/2'>
+                <div className=' overflow-y-auto overflow-x-hidden max-h-[100vh] w-1/2'>
                     {videoObj.error && <ErrorPage/>}
                     {videoObj.loading && <LoaderPage />}
                     {   

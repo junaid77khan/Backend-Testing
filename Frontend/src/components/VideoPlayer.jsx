@@ -3,13 +3,16 @@ import ReactPlayer from 'react-player';
 
 function VideoPlayer({ videoFile }) {
     return (
-        <ReactPlayer
-            url={videoFile}
-            width="100%"
-            height="100%"
-            controls
-            playing
-        />
+        <div className="aspect-video">
+            <ReactPlayer
+                url={videoFile}
+                className=""
+                width="100%"
+                height="100%"
+                controls
+                playing
+            />
+        </div>
     )
 }
 
