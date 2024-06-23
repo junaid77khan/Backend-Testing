@@ -57,13 +57,13 @@ function Login() {
               Username
             </label>
             <input
-              type="text"
-              name="username"
-              id="username"
-              value={loginData.username}
-              onChange={handleInput}
-              className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
-            />
+                type="text"
+                name="username"
+                id="username"
+                value={loginData.username}
+                onChange={handleInput}
+                className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+             />
           </div>
 
           <div className="flex flex-col">
@@ -84,7 +84,7 @@ function Login() {
             type="submit"
             className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            Submit
+            Login
           </button>
         </form>
         <div className="mt-5">

@@ -19,7 +19,6 @@ function App() {
   return (
     <div className='scrollbar'>
       <Provider store={store}>
-      {/* <Header2/> */}
       <Outlet/>
       </Provider>
     </div>

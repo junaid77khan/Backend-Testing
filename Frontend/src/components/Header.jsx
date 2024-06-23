@@ -1,18 +1,55 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {NavLink } from 'react-router-dom'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+    const [searchInput, setsearchInput] = useState({searchInput: ""});
+    const navigate = useNavigate()
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {    
+            const validSearchInput = JSON.stringify(searchInput);
+            const response = await fetch('/api/v1/search/videos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: validSearchInput,
+            });
+        
+              if (!response.ok) {
+                console.log('Something went wrong');
+              }
+        
+              const searchResult = await response.json();
+
+              navigate(`/search/videos`, { state: searchResult })
+        } catch (error) {
+            console.log(error);
+            throw new Error('Something went wrong');
+        }
+    }
+
+    const handleInput = (e) => {
+        const input = e.target.value;
+        setsearchInput({searchInput: input});
+    }
     return (
         <div className='w-full shadow-lg flex flex-col justify-center items-center'>
             {/* Search Bar */}
-            <div className="w-1/2 mt-2 mb-4 flex justify-center items-center">
+            <form onSubmit={handleSubmit} className="w-1/2 mt-2 mb-4 flex justify-center items-center">
                 <input
                     type="text"
                     placeholder="Search"
                     className="w-3/4 py-2 px-4 rounded-l-full border border-gray-300 focus:outline-none focus:border-blue-500"
+                    name='content'
+                    value={searchInput.searchInput}
+                    onChange={handleInput}
                 />
-                <button className="bg-blue-500 text-white py-2 px-4 rounded-r-full">Search</button>
-            </div>
+                <input className="bg-blue-500 text-white py-2 px-4 rounded-r-full" type='submit' value='Search' />
+            </form>
 
             {/* Navigation Links */}
             <div className="flex mb-3">

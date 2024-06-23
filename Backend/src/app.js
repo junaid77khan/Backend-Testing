@@ -6,7 +6,8 @@ const app = express()
 
 // middlewares
 app.use(cors({
-    origin: '*',
+    origin: ["https://video-app.vercel.app/profile/one"],
+    methods: ["POST", "GET"],
     credentials: true
 }))
 
@@ -37,6 +38,7 @@ import likeRouter from './routes/like.route.js'
 import dislikeRouter from './routes/dislike.route.js'
 import dashboardRouter from './routes/dashboard.route.js'
 import healthcheckRouter from './routes/healthcheck.route.js'
+import searchRouter from './routes/search.routes.js';
 
 // router decleration
 // yaha routes aur controllers ko alag-2 kerdiya h to "app.get()" use nhi ker sakte.
@@ -52,5 +54,6 @@ app.use("/api/v1/likes", likeRouter)
 app.use("/api/v1/dislikes", dislikeRouter)
 app.use("/api/v1/dashboard", dashboardRouter)
 app.use("/api/v1/healthcheck", healthcheckRouter)
+app.use("/api/v1/search", searchRouter)
 
 export default app

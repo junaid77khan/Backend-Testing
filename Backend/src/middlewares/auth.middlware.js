@@ -10,7 +10,6 @@ export const verifyJWT = asyncHandler( async(req, _, next) => {
         // may be user is using phone so cookies does not have access to accessToken, so use another method
         // whya accessToken is used?
         const token = req.cookies.accessToken || req.header("Authorization")?.replace("Bearer ", "")
-        
         if( !token ) {
             throw new ApiError(401, "Unauthorized Access")
         }

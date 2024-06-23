@@ -9,5 +9,6 @@ import Logout from "./Logout";
 import Container from "./container/Container";
 import Upload from "./Upload";
 import Video from "./VideoComponent/Video";
+import Search from "./SearchComponent/Search"
 
-export {Login, Register, Home, Header, Profile, History, Myvideos, Logout, Container, Upload, Video}
+export {Login, Register, Home, Header, Profile, History, Myvideos, Logout, Container, Upload, Video, Search}

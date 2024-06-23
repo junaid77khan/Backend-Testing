@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import {Login, Register, Home, Profile, History, Myvideos, Logout, Upload, Video} from './components'
+import {Login, Register, Home, Profile, History, Myvideos, Logout, Upload, Video, Search} from './components'
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -18,6 +18,7 @@ const router = createBrowserRouter(
        <Route path='logout' element={<Logout/>} />
        <Route path='upload' element={<Upload/>} />
        <Route path='/v/:videoId' element={<Video />}/>
+       <Route path='search/videos' element={<Search />}/>
     </Route>
    )
 )
