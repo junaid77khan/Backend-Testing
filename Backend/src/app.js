@@ -6,8 +6,7 @@ const app = express()
 
 // middlewares
 app.use(cors({
-    origin: ["https://video-app.vercel.app/profile/one"],
-    methods: ["POST", "GET"],
+    origin: "*",
     credentials: true
 }))
 
