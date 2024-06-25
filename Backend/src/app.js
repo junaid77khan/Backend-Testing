@@ -8,7 +8,7 @@ const corsConfig = {
     credential: true,
     methods: ["GET", "POST", "DELETE", "PUT"]
 }; 
-app.options("", cors(corsConfig)); 
+
 app.use(cors(corsConfig));
 
 // middlewares
