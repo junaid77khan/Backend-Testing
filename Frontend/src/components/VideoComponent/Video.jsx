@@ -31,7 +31,7 @@ function Video() {
     
     const onAddComment = useCallback(async (commentContent) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/comments/d/${videoId}`, {
+            const response = await fetch(`/api/v1/comments/d/${videoId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -53,7 +53,7 @@ function Video() {
 
     const fetchVideoData = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/videos/c/${videoId}`, {
+            const response = await fetch(`/api/v1/videos/c/${videoId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -74,7 +74,7 @@ function Video() {
 
     const fetchComments = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/comments/d/${videoId}`, {
+            const response = await fetch(`/api/v1/comments/d/${videoId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
