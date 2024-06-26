@@ -34,7 +34,7 @@ function Upload() {
         });
 
         try {
-            const response = await fetch('https://localhost:5000/api/v1/videos/upload-video', {
+            const response = await fetch('https://social-app-latest-4.onrender.com/api/v1/videos/upload-video', {
                 method: 'POST',
                 headers: {
                 'Authorization': `Bearer ${token}`
