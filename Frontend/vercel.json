@@ -4,5 +4,12 @@
         "src": "/(.*)",
         "dest": "/src/main.jsx"
       }
+    ],
+
+    "rewrites": [
+      {
+        "src": "/(.*)",
+        "dest": "/"
+      }
     ]
 }
