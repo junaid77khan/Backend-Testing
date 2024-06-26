@@ -90,7 +90,7 @@ const getAllDBVideo = asyncHandler( async(req, res) => {
 } )
 
 const publishAVideo = asyncHandler(async (req, res) => {
-    const { title, description} = req.body
+    const { title, description} = req.body;
     if(
         [title, description].some( (field) => field?.trim === "" )
     ) {
