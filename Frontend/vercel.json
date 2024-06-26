@@ -8,8 +8,8 @@
 
     "rewrites": [
       {
-        "src": "/(.*)",
-        "dest": "/src/main.jsx"
+        "source": "/(.*)",
+        "destination": "/src/main.jsx"
       }
     ]
 }
