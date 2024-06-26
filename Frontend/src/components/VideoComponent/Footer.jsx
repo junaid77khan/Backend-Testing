@@ -10,7 +10,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     const[boolDisLike, setBoolDisLike] = useState(null)
     const token = useSelector(state => state.accessTokenSlice.token);
     const fetchLikeData = useCallback( async() => {
-        const res = await fetch(`/api/v1/likes/boolLike/b/${videoData?._id}`,
+        const res = await fetch(`https://social-app-latest-4.onrender.com/api/v1/likes/boolLike/b/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -25,7 +25,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     })
 
     const fetchDislikeData = useCallback( async() => {
-        const res = await fetch(`/api/v1/dislikes/dislikebool/b/${videoData?._id}`,
+        const res = await fetch(`https://social-app-latest-4.onrender.com/api/v1/dislikes/dislikebool/b/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -40,7 +40,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     })
 
     const toggleLike = useCallback( async() => {
-        const res = await fetch(`/api/v1/likes/toggle/v/${videoData?._id}`,
+        const res = await fetch(`https://social-app-latest-4.onrender.com/api/v1/likes/toggle/v/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -55,7 +55,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     })
 
     const toggleDisLike = useCallback( async() => {
-        const res = await fetch(`/api/v1/dislikes/toggle/v/${videoData?._id}`,
+        const res = await fetch(`https://social-app-latest-4.onrender.com/api/v1/dislikes/toggle/v/${videoData?._id}`,
         {
             method: 'GET',
             headers: {

@@ -11,7 +11,7 @@ function Header() {
         e.preventDefault();
         try {    
             const validSearchInput = JSON.stringify(searchInput);
-            const response = await fetch('/api/v1/search/videos', {
+            const response = await fetch('https://social-app-latest-4.onrender.com/api/v1/search/videos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -14,9 +14,9 @@ function Profile() {
     const token = useSelector(state => state.accessTokenSlice.token)
     const navigate = useNavigate()
 
-    const stats = UseReactQuery('/api/v1/dashboard/stats', 'GET')
-    const videos = UseReactQuery('/api/v1/dashboard/videos', 'GET')
-    const user = UseReactQuery('/api/v1/users/current-user', 'GET')
+    const stats = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/dashboard/stats', 'GET')
+    const videos = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/dashboard/videos', 'GET')
+    const user = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/users/current-user', 'GET')
 
     // useEffect(() => {
     //     const fetchData = async () => {

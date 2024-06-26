@@ -34,7 +34,7 @@ function Register() {
     });
 
     try {
-      const response = await fetch('/api/v1/users/register', {
+      const response = await fetch('https://social-app-latest-4.onrender.com/api/v1/users/register', {
         method: 'POST',
         body: formData,
       });

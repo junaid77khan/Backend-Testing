@@ -11,7 +11,7 @@ function Home() {
     // const token = useSelector(state => state.accessTokenSlice.token)
     const navigate = useNavigate()
     
-    const videoObj = UseReactQuery('/api/v1/videos/home-videos', 'GET')
+    const videoObj = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/videos/home-videos', 'GET')
 
     // useEffect(() => {
     //     const fetchData = async () => {
