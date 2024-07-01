@@ -213,10 +213,6 @@ const loginUser = asyncHandler( async(req, res) => {
         expires: new Date(Date.now() + 25892000000)
     }
 
-    res.cookie("accessToken", accessToken, options);
-
-    console.log("Login side - ", res.cookies.accessToken);
-
     return res
     .status(200)
     .cookie("accessToken", accessToken, options)
