@@ -84,8 +84,6 @@ const getAllDBVideo = asyncHandler( async(req, res) => {
         throw new ApiError(400, "Something went wrong while fetching videos")
     }
 
-    console.log("Home");
-
     return res
     .status(200)
     .json(new ApiResponse(200, videos, "Videos fetched successfully"))

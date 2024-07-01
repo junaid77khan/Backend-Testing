@@ -41,6 +41,7 @@ function Login() {
       if (!response.ok) {
         setLoading(false);
         console.log('Credentials are wrong');
+        throw new Error('Something went wrong while login');
       }
 
       const dataFromServer = await response.json();
