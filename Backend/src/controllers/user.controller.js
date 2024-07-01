@@ -28,31 +28,15 @@ const generateAccessAndRefreshTken = async (userId) => {
 }
 
 const registerUser = asyncHandler( async(req, res) => {
-    /*
-    Steps -
-    Take user input from frontend.
-    Validate the data - check empty or not and type check.
-    Existance - check username and email - already exist or not.
-    uploads Image and Avatar, check Avatar.
-    Upload data on Cloudinary.
-    It give response and through response we check succ. uploaded or not.
-    Now create a user Object according to the usermodel created.
-    save user details on DB.
-    Check DB response. Remove passowrd and refresh token from respoonse
-    return res
-    */
-
-
-    // taking i/p form frontend
     const {username, email, fullName, password} = req.body;
-    // validation
+    
     if(
         [username, email, fullName, password].some( (field) => field?.trim === "" )
     ) {
         throw new ApiError(400, "All fields are required")
     }
 
-    // check existance
+    
     const existedUser = await User.findOne({
         $or: [{ username }, { email }]
     })
@@ -209,7 +193,7 @@ const loginUser = asyncHandler( async(req, res) => {
     // now declaring some options for cookie
     const options = {
         httpOnly: true,
-        // secure: true,
+        secure: true,
         expires: new Date(Date.now() + 25892000000)
     }
 
@@ -596,16 +580,14 @@ const getUserById = asyncHandler( async(req, res) => {
 
 const isUserLoggedIn = asyncHandler( async(req, res) => {
     const token = req.cookies.accessToken
-    console.log("Token - " ,token);
     let isAuthenticated = false;
     if(token) {
         isAuthenticated = true;
     }
-    console.log("Pahuch gaya");
 
     return res
     .status(200)
-    .json(new ApiResponse(200, {"isAuthenticated": isAuthenticated, "Token": token}, "Data fetched successfully"));
+    .json(new ApiResponse(200, {"isAuthenticated": isAuthenticated}, "Data fetched successfully"));
 } )  
 
 export {
