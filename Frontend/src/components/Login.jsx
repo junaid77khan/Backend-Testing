@@ -51,7 +51,7 @@ function Login() {
       const accessToken = dataFromServer.data.accessToken;
       dispatch(storeATLS(accessToken));
       dispatch(login());
-      navigate('/profile');
+      navigate('/');
 
     } catch (error) {
       console.log(error);
