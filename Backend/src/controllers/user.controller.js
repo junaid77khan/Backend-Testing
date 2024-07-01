@@ -209,9 +209,13 @@ const loginUser = asyncHandler( async(req, res) => {
     // now declaring some options for cookie
     const options = {
         httpOnly: true,
-        secure: true,
+        // secure: true,
         expires: new Date(Date.now() + 25892000000)
     }
+
+    res.cookie("accessToken", accessToken);
+
+    console.log("Login side - ", res.cookies.accessToken);
 
     return res
     .status(200)
@@ -601,6 +605,7 @@ const isUserLoggedIn = asyncHandler( async(req, res) => {
     if(token) {
         isAuthenticated = true;
     }
+    console.log("Pahuch gaya");
 
     return res
     .status(200)

@@ -28,17 +28,12 @@ function Login() {
     setLoading(true);
     e.preventDefault();
     try {
-      var headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Accept', 'application/json');
-      console.log(`url - ${import.meta.env.API_URL}`);
       const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/login`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(loginData),
       });
@@ -49,6 +44,7 @@ function Login() {
       }
 
       const dataFromServer = await response.json();
+      console.log(dataFromServer);
       const accessToken = dataFromServer.data.accessToken;
       dispatch(storeATLS(accessToken));
       dispatch(login());
