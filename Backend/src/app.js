@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 const app = express()
 
 const corsConfig = {
-    origin: "https://video-sharing-frontend.vercel.app",
+    origin: "http://localhost:5173/",
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"]
 }; 
