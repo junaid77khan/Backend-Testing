@@ -27,7 +27,7 @@ function Logout() {
             } catch (error) {
                 console.error('Error during logout:', error);
             }
-            localStorage.removeItem("Access Token");
+            localStorage.removeItem("accessToken");
             navigate("/");
         };
         handleLogout();

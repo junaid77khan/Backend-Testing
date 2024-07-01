@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, json } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Header() {
     const [searchInput, setSearchInput] = useState("");
     const [userStatus, setUserStatus] = useState(false); // This state can be removed if userStatus is derived from Redux state directly
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     // const accessToken = useSelector(state => state.accessTokenSlice.token);
 
     useEffect(() => {
@@ -35,12 +36,17 @@ function Header() {
                 //     setUserStatus(false);
                 // }
 
-                const accessToken = JSON.parse(localStorage.getItem("Access Token"));
+                // const accessToken = JSON.parse(localStorage.getItem("Access Token"));
 
-                if(accessToken) {
-                    setUserStatus(true);
+                let expiry = JSON.parse(localStorage.getItem("accessToken"))
+                if(expiry) {
+                    if(new Date().getTime() < expiry) {
+                        setUserStatus(true);
+                    } else {
+                        setUserStatus(false)
+                    }
                 } else {
-                    setUserStatus(false)
+                    setUserStatus(false);
                 }
             } catch (error) {
                 console.error('Error checking user status:', error);

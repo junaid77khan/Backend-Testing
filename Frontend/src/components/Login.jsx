@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { storeATLS } from '../store/accessTokenSlice';
+import { storeATLS, setTokenWithExpiry } from '../store/accessTokenSlice';
 import { login } from '../store/authSlice';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -46,7 +46,8 @@ function Login() {
 
       const dataFromServer = await response.json();
       const accessToken = dataFromServer.data.accessToken;
-      localStorage.setItem("Access Token", JSON.stringify(accessToken));
+      dispatch(setTokenWithExpiry({ttl: 30000}));
+      // localStorage.setItem("Access Token", JSON.stringify(accessToken));
       navigate('/');
 
     } catch (error) {

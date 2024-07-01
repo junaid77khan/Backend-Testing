@@ -14,9 +14,15 @@ const AccessTokenSlice = createSlice({
         },
         deleteATLS: (state, action) => {
             localStorage.removeItem("Access Token");
+        },
+        setTokenWithExpiry: (state, action)  => {
+            const now = new Date();
+            const expiry = new Date(now.getTime() + 3600000).getTime();
+            localStorage.setItem('accessToken', JSON.stringify(expiry));
         }
+        
     }
 })
 
-export const {storeATLS, deleteATLS} = AccessTokenSlice.actions
+export const {storeATLS, deleteATLS, setTokenWithExpiry} = AccessTokenSlice.actions
 export default AccessTokenSlice.reducer
