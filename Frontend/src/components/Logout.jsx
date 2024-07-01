@@ -12,10 +12,7 @@ function Logout() {
     useEffect(() => {
         const handleLogout = async () => {
             try {
-                dispatch(deleteATLS());
-                dispatch(logout());
-        
-                const logoutResponse = await fetch(`${import.meta.env.API_URL}/api/v1/users/logout`, {
+                const logoutResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -30,7 +27,7 @@ function Logout() {
             } catch (error) {
                 console.error('Error during logout:', error);
             }
-        
+            localStorage.removeItem("Access Token");
             navigate("/");
         };
         handleLogout();

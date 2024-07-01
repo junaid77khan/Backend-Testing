@@ -11,7 +11,7 @@ function AllComment({comment}) {
 
     const fetchUser = useCallback(async() => {
         try {
-            const response = await fetch(`${import.meta.env.API_URL}/api/v1/users/user-by-id`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/user-by-id`, {
                 method: "POST",
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -32,7 +32,7 @@ function AllComment({comment}) {
     }, [])
 
     const fetchLikeData = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.API_URL}/api/v1/likes/boolComment/b/${comment?._id}`,
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/boolComment/b/${comment?._id}`,
         {
             method: 'GET',
             headers: {
@@ -47,7 +47,7 @@ function AllComment({comment}) {
     })
 
     const fetchDisLikeData = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.API_URL}/api/v1/dislikes/dislikecommentbool/b/${comment?._id}`,
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/dislikecommentbool/b/${comment?._id}`,
         {
             method: 'GET',
             headers: {
@@ -62,7 +62,7 @@ function AllComment({comment}) {
     })
 
     const toggleLike = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.API_URL}/api/v1/likes/toggle/c/${comment?._id}`,
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/toggle/c/${comment?._id}`,
         {
             method: 'GET',
             headers: {
@@ -77,7 +77,7 @@ function AllComment({comment}) {
     })
 
     const toggleDisLike = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.API_URL}/api/v1/dislikes/toggle/c/${comment?._id}`,
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/toggle/c/${comment?._id}`,
         {
             method: 'GET',
             headers: {

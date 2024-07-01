@@ -28,7 +28,7 @@ function Login() {
     setLoading(true);
     e.preventDefault();
     try {
-      const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/login`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
@@ -45,10 +45,8 @@ function Login() {
       }
 
       const dataFromServer = await response.json();
-      console.log(dataFromServer);
       const accessToken = dataFromServer.data.accessToken;
-      dispatch(storeATLS(accessToken));
-      dispatch(login());
+      localStorage.setItem("Access Token", JSON.stringify(accessToken));
       navigate('/');
 
     } catch (error) {

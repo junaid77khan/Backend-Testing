@@ -34,7 +34,7 @@ function Upload() {
         });
 
         try {
-            const response = await fetch(`${import.meta.env.API_URL}/api/v1/videos/upload-video`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/videos/upload-video`, {
                 method: 'POST',
                 headers: {
                 'Authorization': `Bearer ${token}`

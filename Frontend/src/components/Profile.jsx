@@ -14,9 +14,9 @@ function Profile() {
     const token = useSelector(state => state.accessTokenSlice.token)
     const navigate = useNavigate()
 
-    const stats = UseReactQuery(`${import.meta.env.API_URL}/api/v1/dashboard/stats`, 'GET')
-    const videos = UseReactQuery(`${import.meta.env.API_URL}/api/v1/dashboard/videos`, 'GET')
-    const user = UseReactQuery(`${import.meta.env.API_URL}/api/v1/users/current-user`, 'GET')
+    const stats = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/stats`, 'GET')
+    const videos = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/videos`, 'GET')
+    const user = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/users/current-user`, 'GET')
 
     // useEffect(() => {
     //     const fetchData = async () => {

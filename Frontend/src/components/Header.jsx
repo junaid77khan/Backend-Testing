@@ -2,36 +2,45 @@ import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Header() {
     const [searchInput, setSearchInput] = useState("");
     const [userStatus, setUserStatus] = useState(false); // This state can be removed if userStatus is derived from Redux state directly
     const navigate = useNavigate();
+    // const accessToken = useSelector(state => state.accessTokenSlice.token);
 
     useEffect(() => {
         const checkUserStatus = async () => {
             try {
-                console.log(`url - ${import.meta.env.API_URL}`);
-                const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/verification`, {
-                    method: 'GET',
-                    mode: 'cors',  
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                });
+                // const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/verification`, {
+                //     method: 'GET',
+                //     mode: 'cors',  
+                //     credentials: 'include',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'Accept': 'application/json'
+                //     },
+                // });
     
-                if (response.ok) {
-                    const jsonResponse = await response.json();
-                    console.log(jsonResponse);
-                    if (jsonResponse.data.isAuthenticated) {
-                        setUserStatus(true); 
-                    } else {
-                        setUserStatus(false);
-                    }
+                // if (response.ok) {
+                //     const jsonResponse = await response.json();
+                //     console.log(jsonResponse);
+                //     if (jsonResponse.data.isAuthenticated) {
+                //         setUserStatus(true); 
+                //     } else {
+                //         setUserStatus(false);
+                //     }
+                // } else {
+                //     setUserStatus(false);
+                // }
+
+                const accessToken = JSON.parse(localStorage.getItem("Access Token"));
+
+                if(accessToken) {
+                    setUserStatus(true);
                 } else {
-                    setUserStatus(false);
+                    setUserStatus(false)
                 }
             } catch (error) {
                 console.error('Error checking user status:', error);
@@ -47,7 +56,7 @@ function Header() {
         e.preventDefault();
         try {    
             const validSearchInput = JSON.stringify({ searchInput });
-            const response = await fetch(`${import.meta.env.API_URL}/api/v1/search/videos`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/search/videos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
