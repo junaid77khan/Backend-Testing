@@ -14,9 +14,68 @@ function Profile() {
     const token = useSelector(state => state.accessTokenSlice.token)
     const navigate = useNavigate()
 
-    const stats = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/stats`, 'GET')
-    const videos = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/videos`, 'GET')
-    const user = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/users/current-user`, 'GET')
+    const stats = UseReactQuery('/api/v1/dashboard/stats', 'GET')
+    const videos = UseReactQuery('/api/v1/dashboard/videos', 'GET')
+    const user = UseReactQuery('/api/v1/users/current-user', 'GET')
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             // get stats
+    //             let response = await fetch('/api/v1/dashboard/stats', {
+    //                 method: 'GET',
+    //                 headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
+    
+    //             if (!response.ok) {
+    //                 throw new Error("Server response is not ok");
+    //             }
+    
+    //             let responseData = await response.json();
+    //             setStats(responseData.data);
+
+    //             // get channel videos
+    //             response = await fetch('/api/v1/dashboard/videos', {
+    //                 method: 'GET',
+    //                 headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
+    
+    //             if (!response.ok) {
+    //                 throw new Error("Server response is not ok");
+    //             }
+    
+    //             responseData = await response.json();
+    //             setVideos(responseData.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //             throw new Error("Something went wrong while fetching stats from server");
+    //         }
+
+    //         // get curr user
+    //         const response = await fetch('/api/v1/users/current-user', {
+    //                 method: 'GET',
+    //                 headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
+    
+    //             if (!response.ok) {
+    //                 throw new Error("Server response is not ok");
+    //             }
+    
+    //             const responseData = await response.json();
+    //             setUser(responseData.data);
+    //     };
+    
+    //     fetchData();
+    // }, [])
 
     const handleClick = (videoId) => {
         navigate(`/v/${videoId}`, { state: videoId })
@@ -37,29 +96,36 @@ function Profile() {
                 
                 (!user.error && !user.loading && !videos.error && !videos.loading && !stats.error && !stats.loading &&
                     <div className='w-full'>
-
+                        {/* profile section */}
                         <div className="bg-gray-100 rounded-lg shadow-lg p-6 w-full">
-                            
+                            {/* Rounded profile photo */}
                             <div className="flex items-center justify-center mb-6">
                                 <img className="rounded-full h-24 w-24 object-cover" src={user.response.avatar ? user.response.avatar : 'image/null-avatar.png'} alt='Profile photo' />
                             </div>
 
+                            {/* Fullname and Username */}
                             <div className="text-center">
                                 <h2 className="text-xl font-semibold">{user.response.fullName}</h2>
                                 <p className="text-gray-600">{user.response.username}</p>
                             </div>
 
+                            {/* subsribers and subscribed */}
                             <div className='flex flex-wrap flex-col justify-center items-center font-bold gap-2'>
                                 <p>Subscribers: {stats?.response?.subscribers?.subscribersCount}</p>
-                               
+                                {/* <p>Subscribed: 22</p> */}
                             </div>
 
+                            {/* more information about profile */}
                             <div className="mt-6">
                                 <div className="flex justify-center gap-10">
                                     <div className="text-center">
                                         <p className="text-gray-600">Total Views</p>
                                         <p className="text-lg font-semibold">{stats?.response?.totalViews?.viewsCount}</p>
                                     </div>
+                                    {/* <div className="text-center">
+                                        <p className="text-gray-600">Total Likes</p>
+                                        <p className="text-lg font-semibold">{stats?.response?.totalLikes?.likesCount}</p>
+                                    </div> */}
                                     <div className="text-center">
                                         <p className="text-gray-600">Total Videos</p>
                                         <p className="text-lg font-semibold">{stats?.response?.totalVideos?.videosCount}</p>
@@ -67,6 +133,7 @@ function Profile() {
                                 </div>
                             </div>
                         </div>
+                        {/* videos section */}
                         {
                             (videos.response.length !== 0) ? (
                                 <div className='flex flex-wrap justify-start items-start min-h-screen w-full gap-4 p-4 bg-gray-200'>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LoaderPage from './LoadingPage';
 
 function Upload() {
     const navigate = useNavigate()
@@ -27,13 +28,14 @@ function Upload() {
         console.log("Reached to handleSubmit");
         e.preventDefault();
         setUploading(true)
+        // Prepare form data to send to the backend
         const formData = new FormData();
         Object.entries(upload).forEach(([key, value]) => {
             formData.append(key, value);
         });
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/videos/upload-video`, {
+            const response = await fetch('/api/v1/videos/upload-video', {
                 method: 'POST',
                 headers: {
                 'Authorization': `Bearer ${token}`

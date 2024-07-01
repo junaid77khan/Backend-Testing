@@ -11,7 +11,8 @@ const generateAccessAndRefreshTken = async (userId) => {
   try {
 
     const user = await User.findById(userId)
-    
+
+    // generating
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -27,15 +28,31 @@ const generateAccessAndRefreshTken = async (userId) => {
 }
 
 const registerUser = asyncHandler( async(req, res) => {
+    /*
+    Steps -
+    Take user input from frontend.
+    Validate the data - check empty or not and type check.
+    Existance - check username and email - already exist or not.
+    uploads Image and Avatar, check Avatar.
+    Upload data on Cloudinary.
+    It give response and through response we check succ. uploaded or not.
+    Now create a user Object according to the usermodel created.
+    save user details on DB.
+    Check DB response. Remove passowrd and refresh token from respoonse
+    return res
+    */
 
+
+    // taking i/p form frontend
     const {username, email, fullName, password} = req.body;
-    
+    // validation
     if(
         [username, email, fullName, password].some( (field) => field?.trim === "" )
     ) {
         throw new ApiError(400, "All fields are required")
     }
 
+    // check existance
     const existedUser = await User.findOne({
         $or: [{ username }, { email }]
     })
@@ -143,17 +160,29 @@ const setAvatar = asyncHandler( async(req, res) => {
 } )
 
 const loginUser = asyncHandler( async(req, res) => {
+    /*
+    Algo
+    User input - req.body
+    email or username
+    Check exist or not
+    find user
+    Check password from DB
+    Access & refresh token
+    send cookie.
+    */
+
+    // input
     const{username, email, password} = req.body
 
-    console.log("reached");
     // check
     if( !(username) && !(email)) {
         throw new ApiError(400, "Username or email is required")
     }
 
-    console.log("Username - ", username, "Email - ", email);
-
+    // check existance
+    // db dusre continent me he
     const user = await User.findOne({
+        // help to check either username or email.
         $or: [{ username }, { email }]
     })
 
@@ -161,12 +190,15 @@ const loginUser = asyncHandler( async(req, res) => {
         throw new ApiResponse(404, "User does not exist")
     }
 
+    // **becrypt he bhai await to lagega
     const isPasswordValid = await user.isPasswordCorrect(password)
 
     if( !isPasswordValid ) {
         throw new ApiError(401, "Invalid user credentials")
     }
 
+    // generating access and refresh token
+    // may be take time
     const {accessToken, refreshToken} = await generateAccessAndRefreshTken(user._id)
 
     // now above, we save data in user but by setting accessToken and refreshToken user referencing old data so we have to again retrieve data from db but we remove password and refresh token field
@@ -177,8 +209,7 @@ const loginUser = asyncHandler( async(req, res) => {
     // now declaring some options for cookie
     const options = {
         httpOnly: true,
-        secure: true,
-        domain: '*'
+        secure: true
     }
 
     return res
@@ -564,7 +595,6 @@ const getUserById = asyncHandler( async(req, res) => {
 
 const isUserLoggedIn = asyncHandler( async(req, res) => {
     const token = req.cookies.accessToken
-    console.log("Cookies - ", req.cookies);
     console.log("Token - " ,token);
     let isAuthenticated = false;
     if(token) {

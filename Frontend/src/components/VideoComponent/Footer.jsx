@@ -10,7 +10,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     const[boolDisLike, setBoolDisLike] = useState(null)
     const token = useSelector(state => state.accessTokenSlice.token);
     const fetchLikeData = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/boolLike/b/${videoData?._id}`,
+        const res = await fetch(`/api/v1/likes/boolLike/b/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -25,7 +25,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     })
 
     const fetchDislikeData = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/dislikebool/b/${videoData?._id}`,
+        const res = await fetch(`/api/v1/dislikes/dislikebool/b/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -40,7 +40,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     })
 
     const toggleLike = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/toggle/v/${videoData?._id}`,
+        const res = await fetch(`/api/v1/likes/toggle/v/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -55,7 +55,7 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
     })
 
     const toggleDisLike = useCallback( async() => {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/toggle/v/${videoData?._id}`,
+        const res = await fetch(`/api/v1/dislikes/toggle/v/${videoData?._id}`,
         {
             method: 'GET',
             headers: {
@@ -112,13 +112,14 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
                     </div>
                 </div>
                 <div className='flex flex-wrap justify-center items-center gap-3'>
+                    {/* delete and edit option */}
                     {isOwner &&
                         <div className='flex flex-wrap gap-2'>
                             <FontAwesomeIcon className='text-blue-600 bg-gray-300 rounded-full px-4 py-2'  flip="horizontal" icon={faEdit} />
                             <FontAwesomeIcon className='bg-gray-300 text-red-600 rounded-full px-4 py-2' flip="horizontal" icon={faTrash} />
                         </div>
                     }
-
+                    {/* Subscribe button */}
                     <div>
                     {
                         (!subscribed) ? (
@@ -132,9 +133,11 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
                         )
                     }
                     
+                        {/* <button className='px-5 py-2 font-semibold bg-red-500 rounded-full text-white'>Subscribe</button> */}
                     </div>
                 </div>
             </div>
+            {/* <h2 className="text-lg text-gray-800">{videoData?.description}</h2> */}
         </div>
     )
 }

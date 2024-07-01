@@ -28,11 +28,15 @@ function Login() {
     setLoading(true);
     e.preventDefault();
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/login`, {
+      var headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
+      const response = await fetch(`/api/v1/users/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        mode: 'same-origin',
+        redirect: 'follow',
+        credentials: 'include',
+        headers: headers,
         body: JSON.stringify(loginData),
       });
 
@@ -42,7 +46,6 @@ function Login() {
       }
 
       const dataFromServer = await response.json();
-      console.log("Data from server - ", dataFromServer);
       const accessToken = dataFromServer.data.accessToken;
       dispatch(storeATLS(accessToken));
       dispatch(login());

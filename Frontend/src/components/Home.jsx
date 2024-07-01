@@ -9,7 +9,7 @@ import LoaderPage from './LoadingPage';
 function Home() {
     const navigate = useNavigate()
     
-    const videoObj = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/videos/home-videos`, 'GET')
+    const videoObj = UseReactQuery(`/api/v1/videos/home-videos`, 'GET')
 
     const handleClick = (videoId) => {
         navigate(`/v/${videoId}`, { state: videoId })
