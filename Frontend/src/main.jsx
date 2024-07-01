@@ -8,7 +8,7 @@ import {Login, Register, UploadAvatar, Home, Profile, History, Myvideos, Logout,
 const router = createBrowserRouter(
    createRoutesFromElements(
 
-    <Route path='/' element={<App />}>
+    <Route  path='/' element={<App />}>
        <Route path='' element={<Home/>} />
        <Route path='login' element={<Login/>} />
        <Route path='register' element={<Register/>} />
