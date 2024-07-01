@@ -12,7 +12,7 @@ function Header() {
         const checkUserStatus = async () => {
             try {
                 console.log(`url - ${import.meta.env.API_URL}`);
-                const response = await fetch(`${import.meta.env.API_URL}/api/v1/users/verification`, {
+                const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/verification`, {
                     method: 'GET',
                     mode: 'cors',  
                     credentials: 'include',
@@ -24,6 +24,7 @@ function Header() {
     
                 if (response.ok) {
                     const jsonResponse = await response.json();
+                    console.log(jsonResponse);
                     if (jsonResponse.data.isAuthenticated) {
                         setUserStatus(true); 
                     } else {

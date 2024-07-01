@@ -604,7 +604,7 @@ const isUserLoggedIn = asyncHandler( async(req, res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200, {"isAuthenticated": isAuthenticated}, "Data fetched successfully"));
+    .json(new ApiResponse(200, {"isAuthenticated": isAuthenticated, "Token": token}, "Data fetched successfully"));
 } )  
 
 export {

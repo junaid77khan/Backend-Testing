@@ -8,8 +8,7 @@ import LoaderPage from './LoadingPage';
 
 function Home() {
     const navigate = useNavigate()
-    
-    const videoObj = UseReactQuery(`${import.meta.env.API_URL}/api/v1/videos/home-videos`, 'GET')
+    const videoObj = UseReactQuery(`https://social-app-latest-3.onrender.com/api/v1/videos/home-videos`, 'GET')
 
     const handleClick = (videoId) => {
         navigate(`/v/${videoId}`, { state: videoId })

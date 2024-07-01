@@ -32,7 +32,7 @@ function Login() {
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');
       console.log(`url - ${import.meta.env.API_URL}`);
-      const response = await fetch(`${import.meta.env.API_URL}/api/v1/users/login`, {
+      const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/login`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
