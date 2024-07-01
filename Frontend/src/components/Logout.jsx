@@ -15,7 +15,7 @@ function Logout() {
                 dispatch(deleteATLS());
                 dispatch(logout());
         
-                const logoutResponse = await fetch('/api/v1/users/logout', {
+                const logoutResponse = await fetch(`${import.meta.env.API_URL}/api/v1/users/logout`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
