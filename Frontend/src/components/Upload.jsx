@@ -33,7 +33,7 @@ function Upload() {
         });
 
         try {
-            const response = await fetch('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/videos/upload-video', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/videos/upload-video`, {
                 method: 'POST',
                 headers: {
                 'Authorization': `Bearer ${token}`

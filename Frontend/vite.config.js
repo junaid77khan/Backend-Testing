@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5176,    
     proxy: {
       '/api': {
-        target: 'https://video-sharing-app-backend-fcv2.onrender.com',
+        target: `${import.meta.env.VITE_API_URL}` ,
         changeOrigin: true,
         secure: false,
         ws: false

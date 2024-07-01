@@ -11,7 +11,7 @@ const generateAccessAndRefreshTken = async (userId) => {
   try {
 
     const user = await User.findById(userId)
-
+    
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -143,29 +143,17 @@ const setAvatar = asyncHandler( async(req, res) => {
 } )
 
 const loginUser = asyncHandler( async(req, res) => {
-    /*
-    Algo
-    User input - req.body
-    email or username
-    Check exist or not
-    find user
-    Check password from DB
-    Access & refresh token
-    send cookie.
-    */
-
-    // input
     const{username, email, password} = req.body
 
+    console.log("reached");
     // check
     if( !(username) && !(email)) {
         throw new ApiError(400, "Username or email is required")
     }
 
-    // check existance
-    // db dusre continent me he
+    console.log("Username - ", username, "Email - ", email);
+
     const user = await User.findOne({
-        // help to check either username or email.
         $or: [{ username }, { email }]
     })
 
@@ -173,15 +161,12 @@ const loginUser = asyncHandler( async(req, res) => {
         throw new ApiResponse(404, "User does not exist")
     }
 
-    // **becrypt he bhai await to lagega
     const isPasswordValid = await user.isPasswordCorrect(password)
 
     if( !isPasswordValid ) {
         throw new ApiError(401, "Invalid user credentials")
     }
 
-    // generating access and refresh token
-    // may be take time
     const {accessToken, refreshToken} = await generateAccessAndRefreshTken(user._id)
 
     // now above, we save data in user but by setting accessToken and refreshToken user referencing old data so we have to again retrieve data from db but we remove password and refresh token field
@@ -192,7 +177,8 @@ const loginUser = asyncHandler( async(req, res) => {
     // now declaring some options for cookie
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        domain: '*'
     }
 
     return res
@@ -578,6 +564,7 @@ const getUserById = asyncHandler( async(req, res) => {
 
 const isUserLoggedIn = asyncHandler( async(req, res) => {
     const token = req.cookies.accessToken
+    console.log("Cookies - ", req.cookies);
     console.log("Token - " ,token);
     let isAuthenticated = false;
     if(token) {
