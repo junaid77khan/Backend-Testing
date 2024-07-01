@@ -33,10 +33,12 @@ function Login() {
       headers.append('Accept', 'application/json');
       const response = await fetch(`https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/login`, {
         method: 'POST',
-        mode: 'same-origin',
-        redirect: 'follow',
+        mode: 'cors',
         credentials: 'include',
-        headers: headers,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify(loginData),
       });
 

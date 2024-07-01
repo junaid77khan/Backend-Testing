@@ -13,8 +13,11 @@ function Header() {
             try {
                 const response = await fetch(`https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/verification`, {
                     method: 'GET',
+                    mode: 'cors',  
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                 });
     

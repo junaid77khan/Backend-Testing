@@ -5,7 +5,7 @@ const app = express()
 
 const corsConfig = {
     origin: "https://video-sharing-frontend.vercel.app",
-    credential: true,
+    credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"]
 }; 
 
