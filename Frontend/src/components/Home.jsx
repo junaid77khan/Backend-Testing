@@ -17,7 +17,7 @@ function Home() {
 
     return (
         <>
-            <Header/>
+            {/* <Header/> */}
             <div className="flex flex-col items-center">
                 
                 <div className='bg-gray-200 min-h-screen p-4 w-full'>
