@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { storeATLS } from '../store/accessTokenSlice';
 import { login } from '../store/authSlice';
-import LoaderPage from './LoadingPage';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,7 +36,7 @@ function Register() {
     });
 
     try {
-      const response = await fetch('/api/v1/users/register', {
+      const response = await fetch('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/register', {
         method: 'POST',
         body: formData,
       });
@@ -129,19 +128,6 @@ function Register() {
                     className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
                   />
                 </div>
-
-                {/* <div className="flex flex-col">
-                  <label htmlFor="avatar" className="text-gray-700 font-semibold">
-                    Avatar <span className='text-gray-400'> (Optional)</span>
-                  </label>
-                  <input
-                    type="file"
-                    name="avatar"
-                    id="avatar"
-                    onChange={handleInput}
-                    className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
-                  />
-                </div> */}
 
                 <button
                   type="submit"

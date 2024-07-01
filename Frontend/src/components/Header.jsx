@@ -11,7 +11,7 @@ function Header() {
     useEffect(() => {
         const checkUserStatus = async () => {
             try {
-                const response = await fetch('/api/v1/users/verification', {
+                const response = await fetch('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/verification', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ function Header() {
         e.preventDefault();
         try {    
             const validSearchInput = JSON.stringify({ searchInput });
-            const response = await fetch('/api/v1/search/videos', {
+            const response = await fetch('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/search/videos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

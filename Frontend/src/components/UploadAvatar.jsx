@@ -27,7 +27,7 @@ function UploadAvatar() {
     formData.append("avatar", avatar[0]);
 
     try {
-      const response = await fetch('/api/v1/users/set-avatar', {
+      const response = await fetch('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/set-avatar', {
         method: 'POST',
         body: formData,
       });

@@ -9,7 +9,7 @@ import LoaderPage from './LoadingPage';
 function Home() {
     const navigate = useNavigate()
     
-    const videoObj = UseReactQuery('/api/v1/videos/home-videos', 'GET')
+    const videoObj = UseReactQuery('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/videos/home-videos', 'GET')
 
     const handleClick = (videoId) => {
         navigate(`/v/${videoId}`, { state: videoId })

@@ -15,7 +15,7 @@ function Logout() {
                 dispatch(deleteATLS());
                 dispatch(logout());
         
-                const logoutResponse = await fetch('/api/v1/users/logout', {
+                const logoutResponse = await fetch('https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/logout', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
