@@ -25,6 +25,7 @@ function Upload() {
     const token = useSelector(state => state.accessTokenSlice.token)
 
     const handleSubmit = async (e) => {
+        console.log("Reached to handleSubmit");
         e.preventDefault();
         setUploading(true)
         // Prepare form data to send to the backend
@@ -34,7 +35,7 @@ function Upload() {
         });
 
         try {
-            const response = await fetch('https://social-app-latest-4.onrender.com/api/v1/videos/upload-video', {
+            const response = await fetch('/api/v1/videos/upload-video', {
                 method: 'POST',
                 headers: {
                 'Authorization': `Bearer ${token}`

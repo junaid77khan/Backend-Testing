@@ -13,15 +13,14 @@ const searchVideo = asyncHandler(async (req, res) => {
     }
 
     let data = Video.find(queryObject);
-    if(!data.data) {
+    if(!data) {
         queryObject = {};
-        console.log(queryObject);
         queryObject.description = { $regex: searchInput, $options: 'i' };
         data = Video.find(queryObject);
     }
 
     const page = 1;
-    const limit = 10;
+    const limit = 20;
 
     const skip = (page-1)*limit;
 

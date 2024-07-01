@@ -4,6 +4,9 @@ import { useDispatch } from 'react-redux';
 import { storeATLS } from '../store/accessTokenSlice';
 import { login } from '../store/authSlice';
 import LoaderPage from './LoadingPage';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Register() {
   const navigate = useNavigate()
@@ -34,7 +37,7 @@ function Register() {
     });
 
     try {
-      const response = await fetch('https://social-app-latest-4.onrender.com/api/v1/users/register', {
+      const response = await fetch('/api/v1/users/register', {
         method: 'POST',
         body: formData,
       });
@@ -45,8 +48,8 @@ function Register() {
 
       const dataFromServer = await response.json();
       dispatch(storeATLS(dataFromServer.data.accessToken))
-      dispatch(login(dataFromServer))
-      navigate('/home');
+      dispatch(login())
+      navigate('/upload-avatar');
     } catch (error) {
       console.error('There was an error!', error);
     } finally {
@@ -63,6 +66,9 @@ function Register() {
         </div>
 
       }
+      <div onClick={() => navigate("/")} className='rounded-full px-6 py-1 bg-gray-300 absolute top-5 left-5'>
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </div>
       <div className="flex flex-col h-screen justify-center items-center bg-gray-100">
             <div className="bg-white p-10 rounded-lg shadow-md">
               <h2 className="text-3xl font-semibold text-gray-800 mb-5">Register</h2>
@@ -124,9 +130,9 @@ function Register() {
                   />
                 </div>
 
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <label htmlFor="avatar" className="text-gray-700 font-semibold">
-                    Avatar
+                    Avatar <span className='text-gray-400'> (Optional)</span>
                   </label>
                   <input
                     type="file"
@@ -135,7 +141,7 @@ function Register() {
                     onChange={handleInput}
                     className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
                   />
-                </div>
+                </div> */}
 
                 <button
                   type="submit"
@@ -146,7 +152,7 @@ function Register() {
               </form>
               <div className="mt-5">
                 <span className="text-gray-700">Already have an account?</span>{' '}
-                <Link to="/" className="text-blue-500 font-semibold hover:underline">
+                <Link to="/login" className="text-blue-500 font-semibold hover:underline">
                   Login here
                 </Link>
               </div>

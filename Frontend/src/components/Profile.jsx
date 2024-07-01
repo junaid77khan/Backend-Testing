@@ -14,9 +14,9 @@ function Profile() {
     const token = useSelector(state => state.accessTokenSlice.token)
     const navigate = useNavigate()
 
-    const stats = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/dashboard/stats', 'GET')
-    const videos = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/dashboard/videos', 'GET')
-    const user = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/users/current-user', 'GET')
+    const stats = UseReactQuery('/api/v1/dashboard/stats', 'GET')
+    const videos = UseReactQuery('/api/v1/dashboard/videos', 'GET')
+    const user = UseReactQuery('/api/v1/users/current-user', 'GET')
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -93,13 +93,14 @@ function Profile() {
                 <LoaderPage />
             }
             {
+                
                 (!user.error && !user.loading && !videos.error && !videos.loading && !stats.error && !stats.loading &&
                     <div className='w-full'>
                         {/* profile section */}
                         <div className="bg-gray-100 rounded-lg shadow-lg p-6 w-full">
                             {/* Rounded profile photo */}
                             <div className="flex items-center justify-center mb-6">
-                                <img className="rounded-full h-24 w-24 object-cover" src={user.response.avatar} alt='Profile photo' />
+                                <img className="rounded-full h-24 w-24 object-cover" src={user.response.avatar ? user.response.avatar : 'image/null-avatar.png'} alt='Profile photo' />
                             </div>
 
                             {/* Fullname and Username */}

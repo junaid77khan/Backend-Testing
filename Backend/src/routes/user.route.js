@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { loginUser, logout, registerUser, refreshAccessToken, changeCurrentPassword, updateUserAvatar, getUserChannelProfile, getCurrentUser, updateAccountDetails, updateUserCoverImage, getWatchHistory, getUserById } from "../controllers/user.controller.js";
+import { loginUser, logout, registerUser, setAvatar, refreshAccessToken, changeCurrentPassword, updateUserAvatar, getUserChannelProfile, getCurrentUser, updateAccountDetails, updateUserCoverImage, getWatchHistory, getUserById, isUserLoggedIn } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middlware.js";
+import { set } from "mongoose";
 
 const router = Router()
 
@@ -16,14 +17,29 @@ router.route("/register").post(
             maxCount: 1
         }
     ]),
-
     registerUser
 )
+
+router.route("/set-avatar").post(
+    verifyJWT,
+    upload.fields([
+        {
+            name: "avatar",
+            maxCount: 1
+        },
+        {
+            name: "coverImage",
+            maxCount: 1
+        }
+    ]),
+
+    setAvatar
+);
 
 router.route("/login").post(loginUser)
 
 // secured routes
-router.route("/logout").post(verifyJWT, logout)
+router.route("/logout").get(verifyJWT, logout)
 
 router.route("/refresh-token").post(refreshAccessToken)
 
@@ -46,5 +62,7 @@ router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
 // router.route("/c/:username").get(verifyJWT, getUserChannelProfile)
 
 router.route("/watch-history").get(verifyJWT, getWatchHistory)
+
+router.route("/verification").get(isUserLoggedIn);
 
 export default router

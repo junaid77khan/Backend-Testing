@@ -15,10 +15,10 @@ function Video() {
     const[isOwner, setIsOwner] = useState(false)
     const[curUser, setCurUser] = useState(null)
     const[subscribed, setSubscribed] = useState(false)
-    const videoObj = UseReactQuery('https://social-app-latest-4.onrender.com/api/v1/videos/home-videos', 'GET')
+    const videoObj = UseReactQuery('/api/v1/videos/home-videos', 'GET')
     const location = useLocation();
     const videoId = location.state;
-    const videoInfo = UseReactQuery(`https://social-app-latest-4.onrender.com/api/v1/videos/c/${videoId}`, 'GET')
+    const videoInfo = UseReactQuery(`/api/v1/videos/c/${videoId}`, 'GET')
     const userId = videoInfo?.response?.owner?._id;
     const [videoData, setVideoData] = useState(null);
     const token = useSelector(state => state.accessTokenSlice.token);
@@ -53,7 +53,7 @@ function Video() {
 
     const fetchVideoData = useCallback(async () => {
         try {
-            const response = await fetch(`https://social-app-latest-4.onrender.com/api/v1/videos/c/${videoId}`, {
+            const response = await fetch(`/api/v1/videos/c/${videoId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`

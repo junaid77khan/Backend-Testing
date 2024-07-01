@@ -45,8 +45,6 @@ const registerUser = asyncHandler( async(req, res) => {
 
     // taking i/p form frontend
     const {username, email, fullName, password} = req.body;
-    // console.log("Email : ", email);
-
     // validation
     if(
         [username, email, fullName, password].some( (field) => field?.trim === "" )
@@ -64,27 +62,30 @@ const registerUser = asyncHandler( async(req, res) => {
     }
 
     // Handling images
-    const avatarLocalPath = req.files?.avatar[0]?.path;
+    // let avatarLocalPath;
+    //  if(req.files && Array.isArray(req.files.avatar) && req.files.avatar.length > 0) {
+    //     avatarLocalPath = req.files?.avatar[0]?.path;
+    //  }
     // const coverImageLocalPath = req.files?.avatar[0]?.path; 
 
-     let coverImageLocalPath;
-     if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-        coverImageLocalPath = req.files.coverImage[0].path;
-     }
+    //  let coverImageLocalPath;
+    //  if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+    //     coverImageLocalPath = req.files.coverImage[0].path;
+    //  }
 
     // console.log(avatarLocalPath, " ", coverImageLocalPath);
 
-    if(!avatarLocalPath) {
-        throw new ApiError(400, "Avatar is required!!")
-    }
-
     // upload on cloudinary - may take time
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    // let avatar;
+    // let coverImage;
 
-    if(!avatar) {
-        throw new ApiError(400, "Avatar is required!!")
-    }
+    // if(avatar) {
+    //     avatar = await uploadOnCloudinary(avatarLocalPath);
+    // }
+
+    // if(coverImage) {
+    //     coverImage = await uploadOnCloudinary(coverImageLocalPath);
+    // }
 
     // store data in db
     // DB error - high - handing code written already in index.js
@@ -93,9 +94,7 @@ const registerUser = asyncHandler( async(req, res) => {
         username: username.toLowerCase(),
         email,
         password,
-        fullName,
-        avatar: avatar.url,
-        coverImage: coverImage?.url || ""
+        fullName
     })
 
     const {accessToken, refreshToken} = await generateAccessAndRefreshTken(user._id)
@@ -131,6 +130,33 @@ const registerUser = asyncHandler( async(req, res) => {
         )
     )
 
+} )
+
+const setAvatar = asyncHandler( async(req, res) => {
+    const avatarLocalPath = req.files?.avatar[0]?.path;
+
+    if(!avatarLocalPath) {
+        throw new ApiError("Something went wrong while fetching avatar");
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if(!user) {
+        throw new ApiError("Something went wrong while fetching user information")
+    }
+
+    const cloudinaryResponse = await uploadOnCloudinary(avatarLocalPath);
+
+    if(!cloudinaryResponse) {
+        throw new ApiError("Something went wrong while uploading avatar on cloudinary")
+    }
+
+    user.avatar = cloudinaryResponse.url;
+    await user.save({validateBeforeSave: false})
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, {user}, "User avatar uploaded successfully"));
 } )
 
 const loginUser = asyncHandler( async(req, res) => {
@@ -285,6 +311,7 @@ const refreshAccessToken = asyncHandler( async(req, res) => {
 
 } )
 
+
 const changeCurrentPassword = asyncHandler( async (req, res) => {
     const{ oldPassword, newPassword } = req.body;
 
@@ -310,6 +337,8 @@ const changeCurrentPassword = asyncHandler( async (req, res) => {
 } )
 
 const getCurrentUser = asyncHandler( async(req, res) => {
+    
+    console.log(req.user._id);
     return res
     .status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched succesfully"))
@@ -564,8 +593,22 @@ const getUserById = asyncHandler( async(req, res) => {
     .json(new ApiResponse(400, user, "User fetched successfully"))
 } )
 
+const isUserLoggedIn = asyncHandler( async(req, res) => {
+    const token = req.cookies.accessToken
+    console.log("Token - " ,token);
+    let isAuthenticated = false;
+    if(token) {
+        isAuthenticated = true;
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, {"isAuthenticated": isAuthenticated}, "Data fetched successfully"));
+} )  
+
 export {
     registerUser,
+    setAvatar,
     loginUser,
     logout,
     refreshAccessToken,
@@ -576,5 +619,6 @@ export {
     updateUserCoverImage,
     getUserChannelProfile,
     getWatchHistory,
-    getUserById
+    getUserById,
+    isUserLoggedIn
 }

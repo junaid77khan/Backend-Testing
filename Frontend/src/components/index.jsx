@@ -10,5 +10,6 @@ import Container from "./container/Container";
 import Upload from "./Upload";
 import Video from "./VideoComponent/Video";
 import Search from "./SearchComponent/Search"
+import UploadAvatar from "./UploadAvatar";
 
-export {Login, Register, Home, Header, Profile, History, Myvideos, Logout, Container, Upload, Video, Search}
+export {Login, Register, UploadAvatar, Home, Header, Profile, History, Myvideos, Logout, Container, Upload, Video, Search}
