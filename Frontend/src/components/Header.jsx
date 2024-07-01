@@ -11,7 +11,7 @@ function Header() {
     useEffect(() => {
         const checkUserStatus = async () => {
             try {
-                const response = await fetch(`/api/v1/users/verification`, {
+                const response = await fetch(`https://video-sharing-app-backend-fcv2.onrender.com/api/v1/users/verification`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
