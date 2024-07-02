@@ -27,6 +27,8 @@ function Logout() {
             } catch (error) {
                 console.error('Error during logout:', error);
             }
+            dispatch(deleteATLS());
+            dispatch(logout())
             localStorage.removeItem("accessToken");
             navigate("/");
         };

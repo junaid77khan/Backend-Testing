@@ -18,65 +18,6 @@ function Profile() {
     const videos = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/videos`, 'GET')
     const user = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/users/current-user`, 'GET')
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             // get stats
-    //             let response = await fetch('/api/v1/dashboard/stats', {
-    //                 method: 'GET',
-    //                 headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`
-    //                 },
-    //             });
-    
-    //             if (!response.ok) {
-    //                 throw new Error("Server response is not ok");
-    //             }
-    
-    //             let responseData = await response.json();
-    //             setStats(responseData.data);
-
-    //             // get channel videos
-    //             response = await fetch('/api/v1/dashboard/videos', {
-    //                 method: 'GET',
-    //                 headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`
-    //                 },
-    //             });
-    
-    //             if (!response.ok) {
-    //                 throw new Error("Server response is not ok");
-    //             }
-    
-    //             responseData = await response.json();
-    //             setVideos(responseData.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //             throw new Error("Something went wrong while fetching stats from server");
-    //         }
-
-    //         // get curr user
-    //         const response = await fetch('/api/v1/users/current-user', {
-    //                 method: 'GET',
-    //                 headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`
-    //                 },
-    //             });
-    
-    //             if (!response.ok) {
-    //                 throw new Error("Server response is not ok");
-    //             }
-    
-    //             const responseData = await response.json();
-    //             setUser(responseData.data);
-    //     };
-    
-    //     fetchData();
-    // }, [])
-
     const handleClick = (videoId) => {
         navigate(`/v/${videoId}`, { state: videoId })
     }
