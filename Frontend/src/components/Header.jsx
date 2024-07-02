@@ -3,13 +3,13 @@ import { NavLink, json } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/authSlice';
 
 function Header() {
     const [searchInput, setSearchInput] = useState("");
-    const [userStatus, setUserStatus] = useState(false); // This state can be removed if userStatus is derived from Redux state directly
+    const [userStatus, setUserStatus] = useState(null); 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const accessToken = useSelector(state => state.accessTokenSlice.token);
 
     useEffect(() => {
         const checkUserStatus = async () => {
@@ -25,69 +25,40 @@ function Header() {
                 });
     
                 if (response.ok) {
-                    const jsonResponse = await response.json();
-                    // let expiry = JSON.parse(localStorage.getItem("accessToken"));
-                    if (jsonResponse.data.isAuthenticated) {
-                        // if(new Date().getTime() < expiry) {
-                        //     setUserStatus(true);
-                        // } else {
-                        //     try {
-                        //             const logoutResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
-                        //                 method: 'GET',
-                        //                 mode: 'cors',
-                        //                 credentials: 'include',
-                        //                 headers: {
-                        //                 'Content-Type': 'application/json'
-                        //                 },
-                        //             });
-                            
-                        //             if (logoutResponse.ok) {
-                        //                 console.error("Logout successfully");
-                        //             } else {
-                        //                 console.error('Error during logout:');
-                        //             }
-                        //         } catch (error) {
-                        //             console.error('Error during logout:', error);
-                        //         }
-                        //     setUserStatus(false)
-                        // }
-                        setUserStatus(true);
-                    } else {
-                        setUserStatus(false);
-                    }
+                        const jsonResponse = await response.json();
+                        let expiry = JSON.parse(localStorage.getItem("accessToken"));
+                        if(new Date().getTime() < expiry) {
+                            setUserStatus(jsonResponse.data.isAuthenticated);
+                        } else {
+                            if(jsonResponse.data.isAuthenticated) {
+                                dispatch(logout());
+                                setUserStatus(false);
+                                try {
+                                    await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
+                                        method: 'GET',
+                                        mode: 'cors',
+                                        credentials: 'include',
+                                        headers: {
+                                        'Content-Type': 'application/json'
+                                        },
+                                    });
+                                } catch (error) {
+                                    console.error('Error during logout:', error);
+                                }
+                            }
+                        }
                 } else {
+                    dispatch(logout());
                     setUserStatus(false);
                 }
             } catch (error) {
                 console.error('Error checking user status:', error);
+                dispatch(logout());
                 setUserStatus(false); 
             }
         };
-
-        // const checkAccessToken = async () => {
-        //     try {
-        //         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/check-token`, {
-        //             method: 'GET',
-        //             mode: 'cors',  
-        //             credentials: 'include',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //             },
-        //         });
-
-        //         if(res.ok) {
-        //             const jsonRes = await res.json();
-        //             console.log("Json response of token - ", jsonRes);
-        //         } else {
-        //             console.log("Response is not okay");
-        //         }
-        //     } catch (error) {
-        //         console.log("Response is not ok", error.message);
-        //     }
-        // }
     
         checkUserStatus();
-        // checkAccessToken();
     }, []);
     
 
@@ -149,7 +120,7 @@ function Header() {
                             Home
                         </NavLink>
                     </li>
-                    {userStatus && (
+                    {userStatus === true && (
                         <>
                             <li>
                                 <NavLink
@@ -193,7 +164,7 @@ function Header() {
                             </li>
                         </>
                     )}
-                    {!userStatus && (
+                    {userStatus === false && (
                         <>
                             <li>
                                 <NavLink
