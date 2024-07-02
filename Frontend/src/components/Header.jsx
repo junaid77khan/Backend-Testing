@@ -16,7 +16,7 @@ function Header() {
         const checkUserStatus = async () => {
             try {
                 let expiry = JSON.parse(localStorage.getItem("accessToken"));
-                if(new Date().getTime() < expiry) {
+                if(expiry && new Date().getTime() < expiry) {
                     setUserStatus(true);
                 } else {
                     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/verification`, {
@@ -36,18 +36,6 @@ function Header() {
                             setUserStatus(true);
                         } else {
                             setUserStatus(false);
-                            try {
-                                await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
-                                    method: 'GET',
-                                    mode: 'cors',
-                                    credentials: 'include',
-                                    headers: {
-                                    'Content-Type': 'application/json'
-                                    },
-                                });
-                            } catch (error) {
-                                console.error('Error during logout:', error);
-                            }
                         }
                     } else {
                         dispatch(logout());
