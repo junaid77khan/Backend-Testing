@@ -14,27 +14,27 @@ function Header() {
     useEffect(() => {
         const checkUserStatus = async () => {
             try {
-                // const response = await fetch(`https://social-app-latest-3.onrender.com/api/v1/users/verification`, {
-                //     method: 'GET',
-                //     mode: 'cors',  
-                //     credentials: 'include',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'Accept': 'application/json'
-                //     },
-                // });
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/verification`, {
+                    method: 'GET',
+                    mode: 'cors',  
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                });
     
-                // if (response.ok) {
-                //     const jsonResponse = await response.json();
-                //     console.log(jsonResponse);
-                //     if (jsonResponse.data.isAuthenticated) {
-                //         setUserStatus(true); 
-                //     } else {
-                //         setUserStatus(false);
-                //     }
-                // } else {
-                //     setUserStatus(false);
-                // }
+                if (response.ok) {
+                    const jsonResponse = await response.json();
+                    console.log(jsonResponse);
+                    if (jsonResponse.data.isAuthenticated) {
+                        // setUserStatus(true); 
+                    } else {
+                        // setUserStatus(false);
+                    }
+                } else {
+                    // setUserStatus(false);
+                }
 
                 // const accessToken = JSON.parse(localStorage.getItem("Access Token"));
 
@@ -53,8 +53,31 @@ function Header() {
                 setUserStatus(false); 
             }
         };
+
+        const checkAccessToken = async () => {
+            try {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/check-token`, {
+                    method: 'GET',
+                    mode: 'cors',  
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if(res.ok) {
+                    const jsonRes = await res.json();
+                    console.log("Json response of token - ", jsonRes);
+                } else {
+                    console.log("Response is not okay");
+                }
+            } catch (error) {
+                console.log("Response is not ok", error.message);
+            }
+        }
     
         checkUserStatus();
+        checkAccessToken();
     }, []);
     
 

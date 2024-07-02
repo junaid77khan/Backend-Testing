@@ -14,8 +14,10 @@ function Logout() {
             try {
                 const logoutResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
                     method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include',
                     headers: {
-                        'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                     },
                 });
         
