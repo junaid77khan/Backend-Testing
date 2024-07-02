@@ -193,7 +193,7 @@ const loginUser = asyncHandler( async(req, res) => {
     // now declaring some options for cookie
     const options = {
         httpOnly: true,
-        secure: true,
+        secure: false,
         expires: new Date(Date.now() + 25892000000)
     }
 
