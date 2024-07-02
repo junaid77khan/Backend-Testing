@@ -164,7 +164,7 @@ function Header() {
                             </li>
                         </>
                     )}
-                    {userStatus === false && (
+                    {!userStatus && (
                         <>
                             <li>
                                 <NavLink
