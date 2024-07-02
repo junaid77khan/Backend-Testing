@@ -11,17 +11,6 @@ const corsConfig = {
 
 app.use(cors(corsConfig));
 
-// middlewares
-// app.use(cors({
-//     origin: "*",
-//     credentials: true
-// }))
-
-// app.use(cors({
-//     origin: ["https://deploy-mern-1wq.vercel.app"],
-//     credentials: true
-// }))
-
 // accept json format data
 app.use(express.json({limit: "50000kb"}))
 

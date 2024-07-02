@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { NavLink, json } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ function Header() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useCallback(() => {
         const checkUserStatus = async () => {
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/verification`, {
@@ -26,27 +26,28 @@ function Header() {
     
                 if (response.ok) {
                         const jsonResponse = await response.json();
-                        let expiry = JSON.parse(localStorage.getItem("accessToken"));
-                        if(new Date().getTime() < expiry) {
-                            setUserStatus(jsonResponse.data.isAuthenticated);
-                        } else {
-                            if(jsonResponse.data.isAuthenticated) {
-                                dispatch(logout());
-                                setUserStatus(false);
-                                try {
-                                    await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
-                                        method: 'GET',
-                                        mode: 'cors',
-                                        credentials: 'include',
-                                        headers: {
-                                        'Content-Type': 'application/json'
-                                        },
-                                    });
-                                } catch (error) {
-                                    console.error('Error during logout:', error);
-                                }
-                            }
-                        }
+                        setUserStatus(jsonResponse.data.isAuthenticated);
+                        // let expiry = JSON.parse(localStorage.getItem("accessToken"));
+                        // if(new Date().getTime() < expiry) {
+                        //     setUserStatus(jsonResponse.data.isAuthenticated);
+                        // } else {
+                        //     if(jsonResponse.data.isAuthenticated) {
+                        //         dispatch(logout());
+                        //         setUserStatus(false);
+                        //         try {
+                        //             await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
+                        //                 method: 'GET',
+                        //                 mode: 'cors',
+                        //                 credentials: 'include',
+                        //                 headers: {
+                        //                 'Content-Type': 'application/json'
+                        //                 },
+                        //             });
+                        //         } catch (error) {
+                        //             console.error('Error during logout:', error);
+                        //         }
+                        //     }
+                        // }
                 } else {
                     dispatch(logout());
                     setUserStatus(false);
