@@ -47,7 +47,7 @@ function Login() {
       const dataFromServer = await response.json();
       const accessToken = dataFromServer.data.accessToken;
       dispatch(setTokenWithExpiry({ttl: 30000}));
-      dispatch(storeATLS(dataFromServer));
+      dispatch(storeATLS(accessToken));
       dispatch(login())
       // localStorage.setItem("Access Token", JSON.stringify(accessToken));
       navigate('/');
