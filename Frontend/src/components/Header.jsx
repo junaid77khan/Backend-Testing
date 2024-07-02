@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, json } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
+import { setTokenWithExpiry } from '../store/accessTokenSlice';
 
 function Header() {
     const [searchInput, setSearchInput] = useState("");
@@ -14,44 +15,46 @@ function Header() {
     useEffect(() => {
         const checkUserStatus = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/verification`, {
-                    method: 'GET',
-                    mode: 'cors',  
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                });
-    
-                if (response.ok) {
-                        const jsonResponse = await response.json();
-                        setUserStatus(jsonResponse.data.isAuthenticated);
-                        // let expiry = JSON.parse(localStorage.getItem("accessToken"));
-                        // if(new Date().getTime() < expiry) {
-                        //     setUserStatus(jsonResponse.data.isAuthenticated);
-                        // } else {
-                        //     if(jsonResponse.data.isAuthenticated) {
-                        //         dispatch(logout());
-                        //         setUserStatus(false);
-                        //         try {
-                        //             await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
-                        //                 method: 'GET',
-                        //                 mode: 'cors',
-                        //                 credentials: 'include',
-                        //                 headers: {
-                        //                 'Content-Type': 'application/json'
-                        //                 },
-                        //             });
-                        //         } catch (error) {
-                        //             console.error('Error during logout:', error);
-                        //         }
-                        //     }
-                        // }
+                let expiry = JSON.parse(localStorage.getItem("accessToken"));
+                if(new Date().getTime() < expiry) {
+                    setUserStatus(true);
                 } else {
-                    dispatch(logout());
-                    setUserStatus(false);
-                }
+                    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/verification`, {
+                        method: 'GET',
+                        mode: 'cors',  
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                    });
+
+                    if (response.ok) {
+                        const jsonResponse = await response.json();
+                        if(jsonResponse.data.isAuthenticated) {
+                            dispatch(setTokenWithExpiry({ttl: 30000}));
+                            setUserStatus(true);
+                        } else {
+                            setUserStatus(false);
+                            try {
+                                await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
+                                    method: 'GET',
+                                    mode: 'cors',
+                                    credentials: 'include',
+                                    headers: {
+                                    'Content-Type': 'application/json'
+                                    },
+                                });
+                            } catch (error) {
+                                console.error('Error during logout:', error);
+                            }
+                        }
+                    } else {
+                        dispatch(logout());
+                        setUserStatus(false);
+                    }
+                            
+                }    
             } catch (error) {
                 console.error('Error checking user status:', error);
                 dispatch(logout());
