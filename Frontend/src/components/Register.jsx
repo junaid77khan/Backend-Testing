@@ -42,7 +42,7 @@ function Register() {
         mode: 'cors',
         credentials: 'include',
         headers: {
-          'Content-Type': 'application/json'
+          
         },
         body: formData,
       });
