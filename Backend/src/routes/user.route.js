@@ -21,6 +21,7 @@ router.route("/register").post(
 )
 
 router.route("/set-avatar").post(
+    verifyJWT,
     upload.fields([
         {
             name: "avatar",
@@ -31,7 +32,7 @@ router.route("/set-avatar").post(
             maxCount: 1
         }
     ]),
-    
+
     setAvatar
 );
 

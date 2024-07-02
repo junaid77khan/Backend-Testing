@@ -120,12 +120,13 @@ const registerUser = asyncHandler( async(req, res) => {
 
 const setAvatar = asyncHandler( async(req, res) => {
     const avatarLocalPath = req.files?.avatar[0].path;
-    console.log("Avatar local path - ", req.files);
     if (!avatarLocalPath) {
         return res.status(400).json({ error: 'Avatar file path is missing' });
     }
 
-    const user = await User.findById(req.user._id);
+    console.log("Local path - ", avatarLocalPath);
+
+    const user = await User.findById(req.user?._id);
 
     if(!user) {
         throw new ApiError("Something went wrong while fetching user information")
@@ -133,7 +134,7 @@ const setAvatar = asyncHandler( async(req, res) => {
 
     const cloudinaryResponse = await uploadOnCloudinary(avatarLocalPath);
 
-    console.log("cloud url - ", cloudinaryResponse.url);
+    console.log("Cloudinary path", cloudinaryResponse);
 
     if(!cloudinaryResponse) {
         throw new ApiError("Something went wrong while uploading avatar on cloudinary")
