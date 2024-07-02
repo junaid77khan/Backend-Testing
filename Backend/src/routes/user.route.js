@@ -21,7 +21,6 @@ router.route("/register").post(
 )
 
 router.route("/set-avatar").post(
-    verifyJWT,
     upload.fields([
         {
             name: "avatar",
