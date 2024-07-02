@@ -119,10 +119,10 @@ const registerUser = asyncHandler( async(req, res) => {
 } )
 
 const setAvatar = asyncHandler( async(req, res) => {
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-    console.log("Avatar local path - ", avatarLocalPath);
-    if(!avatarLocalPath) {
-        throw new ApiError("Something went wrong while fetching avatar");
+    const avatarLocalPath = req.files?.avatar[0].path;
+    console.log("Avatar local path - ", req.files);
+    if (!avatarLocalPath) {
+        return res.status(400).json({ error: 'Avatar file path is missing' });
     }
 
     const user = await User.findById(req.user._id);
