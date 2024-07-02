@@ -26,31 +26,32 @@ function Header() {
     
                 if (response.ok) {
                     const jsonResponse = await response.json();
-                    let expiry = JSON.parse(localStorage.getItem("accessToken"));
-                    if (jsonResponse.data.isAuthenticated && expiry) {
-                        if(new Date().getTime() < expiry) {
-                            setUserStatus(true);
-                        } else {
-                            try {
-                                    const logoutResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
-                                        method: 'GET',
-                                        mode: 'cors',
-                                        credentials: 'include',
-                                        headers: {
-                                        'Content-Type': 'application/json'
-                                        },
-                                    });
+                    // let expiry = JSON.parse(localStorage.getItem("accessToken"));
+                    if (jsonResponse.data.isAuthenticated) {
+                        // if(new Date().getTime() < expiry) {
+                        //     setUserStatus(true);
+                        // } else {
+                        //     try {
+                        //             const logoutResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
+                        //                 method: 'GET',
+                        //                 mode: 'cors',
+                        //                 credentials: 'include',
+                        //                 headers: {
+                        //                 'Content-Type': 'application/json'
+                        //                 },
+                        //             });
                             
-                                    if (logoutResponse.ok) {
-                                        console.error("Logout successfully");
-                                    } else {
-                                        console.error('Error during logout:');
-                                    }
-                                } catch (error) {
-                                    console.error('Error during logout:', error);
-                                }
-                            setUserStatus(false)
-                        }
+                        //             if (logoutResponse.ok) {
+                        //                 console.error("Logout successfully");
+                        //             } else {
+                        //                 console.error('Error during logout:');
+                        //             }
+                        //         } catch (error) {
+                        //             console.error('Error during logout:', error);
+                        //         }
+                        //     setUserStatus(false)
+                        // }
+                        setUserStatus(true);
                     } else {
                         setUserStatus(false);
                     }
