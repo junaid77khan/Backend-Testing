@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser, logout, registerUser, setAvatar, refreshAccessToken, changeCurrentPassword, updateUserAvatar, getUserChannelProfile, getCurrentUser, updateAccountDetails, updateUserCoverImage, getWatchHistory, getUserById, isUserLoggedIn } from "../controllers/user.controller.js";
+import { loginUser, logout, registerUser, setAvatar, refreshAccessToken, changeCurrentPassword, updateUserAvatar, getUserChannelProfile, getCurrentUser, updateAccountDetails, updateUserCoverImage, getWatchHistory, getUserById, isUserLoggedIn, checkToken } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middlware.js";
 import { set } from "mongoose";
@@ -36,6 +36,8 @@ router.route("/set-avatar").post(
 );
 
 router.route("/login").post(loginUser)
+
+router.route("/check-token").get(checkToken);
 
 // secured routes
 router.route("/logout").get(verifyJWT, logout)

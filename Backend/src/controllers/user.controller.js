@@ -212,6 +212,12 @@ const loginUser = asyncHandler( async(req, res) => {
     )
 } )
 
+const checkToken = asyncHandler ( async(req, res) => {
+    const token =  req?.cookies?.accessToken;
+    console.log("reached");
+    return res.json(new ApiResponse(200, {"token": token}, "Data fetched"));
+} )
+
 const logout = asyncHandler( async(req, res) => {
 
     // const user = await User.findById(req.user._id)
@@ -603,5 +609,6 @@ export {
     getUserChannelProfile,
     getWatchHistory,
     getUserById,
-    isUserLoggedIn
+    isUserLoggedIn,
+    checkToken
 }
