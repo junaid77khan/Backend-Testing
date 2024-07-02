@@ -120,7 +120,7 @@ const registerUser = asyncHandler( async(req, res) => {
 
 const setAvatar = asyncHandler( async(req, res) => {
     const avatarLocalPath = req.files?.avatar[0]?.path;
-
+    console.log("Avatar local path - ", avatarLocalPath);
     if(!avatarLocalPath) {
         throw new ApiError("Something went wrong while fetching avatar");
     }
@@ -132,6 +132,8 @@ const setAvatar = asyncHandler( async(req, res) => {
     }
 
     const cloudinaryResponse = await uploadOnCloudinary(avatarLocalPath);
+
+    console.log("cloud url - ", cloudinaryResponse.url);
 
     if(!cloudinaryResponse) {
         throw new ApiError("Something went wrong while uploading avatar on cloudinary")
