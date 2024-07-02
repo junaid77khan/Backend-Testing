@@ -47,6 +47,7 @@ function Register() {
       } 
 
       const dataFromServer = await response.json();
+      dispatch(setTokenWithExpiry({ttl: 30000}));
       dispatch(storeATLS(dataFromServer.data.accessToken))
       dispatch(login())
       navigate('/upload-avatar');

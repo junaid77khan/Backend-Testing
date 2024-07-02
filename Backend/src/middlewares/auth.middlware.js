@@ -11,6 +11,7 @@ export const verifyJWT = asyncHandler( async(req, _, next) => {
         // whya accessToken is used?
         const token = req.cookies.accessToken || req.header("Authorization")?.replace("Bearer ", "")
         if( !token ) {
+            console.log("token", token);
             throw new ApiError(401, "Unauthorized Access")
         }
         
