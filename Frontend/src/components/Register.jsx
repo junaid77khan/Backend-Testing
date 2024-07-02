@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { storeATLS } from '../store/accessTokenSlice';
+import { storeATLS, setTokenWithExpiry } from '../store/accessTokenSlice';
 import { login } from '../store/authSlice';
 import LoaderPage from './LoadingPage';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
