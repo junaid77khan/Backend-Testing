@@ -17,6 +17,8 @@ function AllComment({comment}) {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                mode: 'cors',
+                credentials: 'include',
                 body: JSON.stringify({ _id: comment?.owner })
             })
 
@@ -35,8 +37,11 @@ function AllComment({comment}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/boolComment/b/${comment?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {
@@ -50,9 +55,13 @@ function AllComment({comment}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/dislikecommentbool/b/${comment?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
+            
         })
         if(!res.ok) {
             throw new Error("Something went wrong while fetching dislike information")
@@ -65,8 +74,11 @@ function AllComment({comment}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/toggle/c/${comment?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {
@@ -80,8 +92,11 @@ function AllComment({comment}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/toggle/c/${comment?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {

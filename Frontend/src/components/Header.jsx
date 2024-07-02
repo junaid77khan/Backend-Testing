@@ -26,24 +26,33 @@ function Header() {
     
                 if (response.ok) {
                     const jsonResponse = await response.json();
-                    console.log(jsonResponse);
-                    if (jsonResponse.data.isAuthenticated) {
-                        // setUserStatus(true); 
+                    let expiry = JSON.parse(localStorage.getItem("accessToken"));
+                    if (jsonResponse.data.isAuthenticated && expiry) {
+                        if(new Date().getTime() < expiry) {
+                            setUserStatus(true);
+                        } else {
+                            try {
+                                    const logoutResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/logout`, {
+                                        method: 'GET',
+                                        mode: 'cors',
+                                        credentials: 'include',
+                                        headers: {
+                                        'Content-Type': 'application/json'
+                                        },
+                                    });
+                            
+                                    if (logoutResponse.ok) {
+                                        console.error("Logout successfully");
+                                    } else {
+                                        console.error('Error during logout:');
+                                    }
+                                } catch (error) {
+                                    console.error('Error during logout:', error);
+                                }
+                            setUserStatus(false)
+                        }
                     } else {
-                        // setUserStatus(false);
-                    }
-                } else {
-                    // setUserStatus(false);
-                }
-
-                // const accessToken = JSON.parse(localStorage.getItem("Access Token"));
-
-                let expiry = JSON.parse(localStorage.getItem("accessToken"))
-                if(expiry) {
-                    if(new Date().getTime() < expiry) {
-                        setUserStatus(true);
-                    } else {
-                        setUserStatus(false)
+                        setUserStatus(false);
                     }
                 } else {
                     setUserStatus(false);
@@ -54,30 +63,30 @@ function Header() {
             }
         };
 
-        const checkAccessToken = async () => {
-            try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/check-token`, {
-                    method: 'GET',
-                    mode: 'cors',  
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+        // const checkAccessToken = async () => {
+        //     try {
+        //         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/check-token`, {
+        //             method: 'GET',
+        //             mode: 'cors',  
+        //             credentials: 'include',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //             },
+        //         });
 
-                if(res.ok) {
-                    const jsonRes = await res.json();
-                    console.log("Json response of token - ", jsonRes);
-                } else {
-                    console.log("Response is not okay");
-                }
-            } catch (error) {
-                console.log("Response is not ok", error.message);
-            }
-        }
+        //         if(res.ok) {
+        //             const jsonRes = await res.json();
+        //             console.log("Json response of token - ", jsonRes);
+        //         } else {
+        //             console.log("Response is not okay");
+        //         }
+        //     } catch (error) {
+        //         console.log("Response is not ok", error.message);
+        //     }
+        // }
     
         checkUserStatus();
-        checkAccessToken();
+        // checkAccessToken();
     }, []);
     
 
@@ -90,6 +99,8 @@ function Header() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                mode: 'cors',
+                credentials: 'include',
                 body: validSearchInput,
             });
         

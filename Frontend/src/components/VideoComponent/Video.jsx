@@ -37,6 +37,8 @@ function Video() {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
+                mode: 'cors',
+                credentials: 'include',
                 body: JSON.stringify({ content: commentContent })
             });
 
@@ -58,6 +60,8 @@ function Video() {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
+                mode: 'cors',
+                credentials: 'include',
             });
 
             if (!response.ok) {
@@ -79,6 +83,8 @@ function Video() {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
+                mode: 'cors',
+                credentials: 'include',
             });
 
             if (!response.ok) {
@@ -108,6 +114,8 @@ function Video() {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             },
+                            mode: 'cors',
+                            credentials: 'include',
                         });
         
                         if (response.ok) {
@@ -122,6 +130,8 @@ function Video() {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             },
+                            mode: 'cors',
+                            credentials: 'include',
                         });
 
                         if (response.ok) {
@@ -164,6 +174,8 @@ function Video() {
             headers: {
                 'Authorization': `Bearer ${token}`
             },
+            mode: 'cors',
+            credentials: 'include',
         });
 
         if(response.ok) {
@@ -172,6 +184,8 @@ function Video() {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 },
+                mode: 'cors',
+                credentials: 'include',
             });
 
             if (response2.ok) {

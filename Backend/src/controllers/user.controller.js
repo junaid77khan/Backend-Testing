@@ -91,7 +91,9 @@ const registerUser = asyncHandler( async(req, res) => {
     // now declaring some options for cookie
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        expires: new Date(Date.now() + 25892000000),
+        sameSite: 'None',
     }
 
     if(!createdUser) {
@@ -211,12 +213,6 @@ const loginUser = asyncHandler( async(req, res) => {
             "User logged in successfully"
         )
     )
-} )
-
-const checkToken = asyncHandler ( async(req, res) => {
-    const token =  req?.cookies?.accessToken;
-    console.log("reached");
-    return res.json(new ApiResponse(200, {"token": token}, "Data fetched"));
 } )
 
 const logout = asyncHandler( async(req, res) => {
@@ -611,5 +607,4 @@ export {
     getWatchHistory,
     getUserById,
     isUserLoggedIn,
-    checkToken
 }

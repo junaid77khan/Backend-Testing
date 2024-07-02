@@ -39,6 +39,8 @@ function Upload() {
                 headers: {
                 'Authorization': `Bearer ${token}`
                 },
+                mode: 'cors',
+                credentials: 'include',
                 body: formData
             });
             if (!response.ok) {

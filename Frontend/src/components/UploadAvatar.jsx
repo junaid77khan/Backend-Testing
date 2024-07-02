@@ -29,6 +29,11 @@ function UploadAvatar() {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/set-avatar`, {
         method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: formData,
       });
 

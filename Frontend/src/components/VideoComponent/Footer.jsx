@@ -13,8 +13,11 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/boolLike/b/${videoData?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {
@@ -28,8 +31,11 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/dislikebool/b/${videoData?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {
@@ -43,8 +49,11 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/likes/toggle/v/${videoData?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {
@@ -58,8 +67,11 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/dislikes/toggle/v/${videoData?._id}`,
         {
             method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         })
         if(!res.ok) {
