@@ -31,9 +31,6 @@ function UploadAvatar() {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: formData,
       });
 

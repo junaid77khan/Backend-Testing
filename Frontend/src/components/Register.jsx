@@ -41,9 +41,6 @@ function Register() {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
-        headers: {
-          
-        },
         body: formData,
       });
 
