@@ -20,7 +20,20 @@ router.route("/register").post(
     registerUser
 )
 
-router.route("/set-avatar").post(setAvatar);
+router.route("/set-avatar").post(
+    upload.fields([
+        {
+            name: "avatar",
+            maxCount: 1
+        },
+        {
+            name: "coverImage",
+            maxCount: 1
+        }
+    ]),
+    
+    setAvatar
+);
 
 router.route("/login").post(loginUser)
 
