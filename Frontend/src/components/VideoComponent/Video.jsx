@@ -168,7 +168,6 @@ function Video() {
     }, [curUser]);
 
     const handleSubscribeButton = async () => {
-        console.log("Handling subscription");
         let response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/subscriptions/c/${userId}`, {
             method: 'GET',
             headers: {
@@ -202,10 +201,9 @@ function Video() {
             <div className='flex flex-col items-center'>
                 <Header />
             </div>
-            <div className="w-full h-screen flex flex-wrap justify-centee items-between p-3 shadow-lg">
-                <div className='w-1/2 overflow-y-auto scrollbar-none max-h-[100vh] shadow-2xl rounded-lg' >
+            <div className="w-full h-screen flex flex-wrap  justify-centee items-between p-3 shadow-lg">
+                <div className='w-full md:w-1/2 overflow-y-auto scrollbar-none max-h-[100vh] shadow-2xl rounded-lg' >
                     
-                    {/* Video player */}
                     {
                         videoData &&
                         <div className="w-full bg-gray-200 rounded-lg p-4">
@@ -213,15 +211,13 @@ function Video() {
                         </div>
                     }
 
-                    {/* Video data */}
                     {videoData && 
                         <div>
                             <Footer isOwner={isOwner} videoData={videoData} subscribed={subscribed} handleSubscribeButton={handleSubscribeButton} />
                         </div>
                     }
 
-                    {/* Description */}
-                    <div className=' w-full px-2 py-4 rounded-lg'>
+                    <div className=' w-full px-2 py-4 rounded-lg '>
                        {videoData?.description}
                     </div>
 
@@ -235,22 +231,21 @@ function Video() {
                         }
                     </div>
                 </div>
-                <div className=' overflow-y-auto overflow-x-hidden max-h-[100vh] w-1/2'>
+                <div className=' overflow-y-auto overflow-x-hidden max-h-[100vh] w-full md:w-1/2'>
                     {videoObj.error && <ErrorPage/>}
                     {videoObj.loading && <LoaderPage />}
                     {   
                         !videoObj.error && !videoObj.loading &&
                         videoObj.response.map((video) => (
-                            <div key={video._id} onClick={() => handleClick(video._id)} className='p-2 flex flex-wrap justify-start gap-2 w-full h-32 bg-gray-100 m-2'>
-                                    <img className='h-28 w-40 rounded-md' src={video.thumbnail} />
+                            <div key={video._id} onClick={() => handleClick(video._id)} className='p-2 flex flex-row justify-start gap-2 w-full h-32 bg-gray-100 m-2'>
+                                    <img className='h-24 w-36 md:h-28 md:w-40 rounded-md' src={video.thumbnail} />
 
-                                    <div>
-                                        {/* title */}
-                                        <h1 className='text-xl font-semibold'>{video.title}</h1>
+                                    <div >
+                                        <h1 className='text-sm md:text-xl font-semibold'>{video.title}</h1>
                                         {/* channel owner */}
-                                        <h1 className='text-gray-500'>{video.fullName}</h1>
+                                        <h1 className='text-sm md:text-xl text-gray-500'>{video.fullName}</h1>
                                         {/* views */}
-                                        <p className='text-gray-500'>{video.views} views</p>
+                                        <p className='text-sm md:text-xl text-gray-500'>{video.views} views</p>
                                     </div>
                             </div>
                     ))}

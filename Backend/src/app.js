@@ -5,6 +5,7 @@ const app = express()
 
 const corsConfig = {
     origin: "https://videi-sharing-frontend.vercel.app",
+    // origin: "*",
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"]
 }; 

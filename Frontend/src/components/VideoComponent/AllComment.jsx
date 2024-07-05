@@ -145,10 +145,10 @@ function AllComment({comment}) {
                         <p>{comment?.content}</p>
                     </div>
                     <div className='flex flex-wrap justify-start items-center gap-3'>
-                        <div onClick={handleToggleLike} className='rounded-full px-6 py-1 bg-gray-300'>
+                        <div onClick={handleToggleLike} className='rounded-full text-xs px-4 py-1 md:text-lg md:px-6 md:py-2 bg-gray-300'>
                             <FontAwesomeIcon style={{color: (boolLike) ? 'blue' : 'black'}} icon={faThumbsUp} />
                         </div>
-                        <div onClick={handleToggleDislike} className='rounded-full px-6 py-1 bg-gray-300'>
+                        <div onClick={handleToggleDislike} className='rounded-full text-xs px-4 py-1 md:text-lg md:px-6 md:py-2 bg-gray-300'>
                             <FontAwesomeIcon style={{color: (boolDisLike) ? 'blue' : 'black'}} flip="horizontal" icon={faThumbsDown} />
                         </div>
                     </div>

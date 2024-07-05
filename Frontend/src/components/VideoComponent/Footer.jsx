@@ -106,50 +106,47 @@ function Footer({isOwner, videoData, subscribed, handleSubscribeButton}) {
             toggleDisLike()
         }
     }
+
     return (
         <div className=" bg-gray-200 rounded-lg w-full px-4 pb-4">
-            <p className="text-gray-500 font-bolder">Views - {videoData?.views}</p>
-            <h1 className="text-xl font-semibold text-gray-900">{videoData?.title}</h1>
+            <p className="text-gray-500 font-bolder mb-1">Views - {videoData?.views}</p>
+            <h1 className="text-md md:text-xl mb-3 font-semibold text-gray-900">{videoData?.title}</h1>
             <div className='pr-3 flex flex-wrap justify-between items-center'>
-                <div className='flex flex-wrap gap-3 items-center justify-between'>
+                <div className='flex flex-wrap gap-2 items-center justify-between'>
                     <img className='rounded-full h-10 w-10' src={videoData?.owner?.avatar} />
                     <h1 className='font-semibold'>{videoData?.owner?.username}</h1>
-                    <div className='flex flex-wrap justify-center items-center gap-1'>
-                        <div onClick={handleToggleLike} className='rounded-full px-6 py-1 bg-gray-300'>
-                            <FontAwesomeIcon style={{color: (boolLike) ? 'blue' : 'black'}} icon={faThumbsUp} />
-                        </div>
-                        <div onClick={handleToggleDislike} className='rounded-full px-6 py-1 bg-gray-300'>
-                            <FontAwesomeIcon style={{color: (boolDisLike) ? 'blue' : 'black'}} flip="horizontal" icon={faThumbsDown} />
-                        </div>
-                    </div>
                 </div>
-                <div className='flex flex-wrap justify-center items-center gap-3'>
-                    {/* delete and edit option */}
-                    {isOwner &&
-                        <div className='flex flex-wrap gap-2'>
-                            <FontAwesomeIcon className='text-blue-600 bg-gray-300 rounded-full px-4 py-2'  flip="horizontal" icon={faEdit} />
-                            <FontAwesomeIcon className='bg-gray-300 text-red-600 rounded-full px-4 py-2' flip="horizontal" icon={faTrash} />
-                        </div>
-                    }
-                    {/* Subscribe button */}
-                    <div>
+                <div>
                     {
                         (!subscribed) ? (
-                            <Button onClick={
+                            <Button className='py-1 px-3 text-sm md:text-md ' onClick={
                                 handleSubscribeButton
                             }>Subscribe</Button>
                         ) : (
-                            <Button onClick = {
+                            <Button className='py-1 px-3 text-sm md:text-md' onClick = {
                                 handleSubscribeButton
                             } bgColor="bg-gray-500" >Subscribed</Button>
                         )
                     }
                     
-                        {/* <button className='px-5 py-2 font-semibold bg-red-500 rounded-full text-white'>Subscribe</button> */}
-                    </div>
                 </div>
             </div>
-            {/* <h2 className="text-lg text-gray-800">{videoData?.description}</h2> */}
+                <div className='flex flex-wrap justify-start items-center gap-1 mt-3'>
+                    <div className='flex flex-wrap justify-center items-center gap-1'>
+                        <div onClick={handleToggleLike} className='rounded-full text-xs px-4 py-1 md:text-lg md:px-6 md:py-2 bg-gray-300'>
+                            <FontAwesomeIcon style={{color: (boolLike) ? 'blue' : 'black'}} icon={faThumbsUp} />
+                        </div>
+                        <div onClick={handleToggleDislike} className='rounded-full text-xs px-4 py-1 md:text-lg md:px-6 md:py-2 bg-gray-300'>
+                            <FontAwesomeIcon style={{color: (boolDisLike) ? 'blue' : 'black'}} flip="horizontal" icon={faThumbsDown} />
+                        </div>
+                    </div>
+                    {isOwner &&
+                        <div className='flex flex-wrap gap-2'>
+                            <FontAwesomeIcon className='text-blue-600 bg-gray-300 rounded-full text-xs px-4 py-1 md:text-lg md:px-6 md:py-2'  flip="horizontal" icon={faEdit} />
+                            <FontAwesomeIcon className='bg-gray-300 text-red-600 rounded-full text-xs px-4 py-1 md:text-lg md:px-6 md:py-2' flip="horizontal" icon={faTrash} />
+                        </div>
+                    }
+                </div>
         </div>
     )
 }
