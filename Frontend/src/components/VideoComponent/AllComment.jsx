@@ -137,7 +137,7 @@ function AllComment({comment}) {
     }, [comment])
 
     return (
-        <div className='flex flex-wrap justify-start w-full items-start gap-2'>
+        <div className='flex flex-wrap justify-start w-full items-start gap-2 p-1 md:p-2'>
                 <img className='w-10 h-10 rounded-full' src={user?.data?.avatar} alt='Profile'/>
                 <div className=''>
                     <div >
