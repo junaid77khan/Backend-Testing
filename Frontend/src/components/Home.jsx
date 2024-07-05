@@ -28,7 +28,7 @@ function Home() {
                         <div className=' flex flex-wrap items-center justify-center gap-6'>
                             {videoObj.response.map((video) => (
                                 <div key={video._id} onClick={() => handleClick(video._id)} className='w-80'>
-                                    <VideoCard thumbnail={video.thumbnail} title={video.title} fullName={video.fullName}/>
+                                    <VideoCard avatar={video.owner.avatar} thumbnail={video.thumbnail} title={video.title} username={video.owner.username} uploadDate={video.createdAt}/>
                                 </div>
                             ))}
                         </div>

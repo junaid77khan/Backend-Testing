@@ -74,7 +74,7 @@ function Register() {
       </div>
       <div className="flex flex-col h-screen justify-center items-center bg-gray-100">
             <div className="bg-white p-10 rounded-lg shadow-md">
-              <h2 className="text-3xl font-semibold text-gray-800 mb-5">Register</h2>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-5">Sign Up</h2>
               <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
                 <div className="flex flex-col">
                   <label htmlFor="username" className="text-gray-700 font-semibold">
@@ -156,7 +156,7 @@ function Register() {
               <div className="mt-5">
                 <span className="text-gray-700">Already have an account?</span>{' '}
                 <Link to="/login" className="text-blue-500 font-semibold hover:underline">
-                  Login here
+                  Sign In
                 </Link>
               </div>
             </div>

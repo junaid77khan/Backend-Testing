@@ -30,8 +30,6 @@ function Login() {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/login`, {
         method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -74,7 +72,7 @@ function Login() {
       </div>
 
       <div className="bg-white p-10 rounded-lg shadow-md">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-5">Login</h2>
+        <h2 className="text-3xl font-semibold text-gray-800 mb-5">Sign In</h2>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div className="flex flex-col">
             <label htmlFor="username" className="text-gray-700 font-semibold">
@@ -114,7 +112,7 @@ function Login() {
         <div className="mt-5">
           <span className="text-gray-700">Don't have an account?</span>{' '}
           <Link to="/register" className="text-blue-500 font-semibold hover:underline">
-            Register here
+            Sign Up
           </Link>
         </div>
       </div>

@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
 import { setTokenWithExpiry } from '../store/accessTokenSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faUser, faClockRotateLeft, faUpload, faRightFromBracket, faUserPlus, faDownLeftAndUpRightToCenter, faArrowLeftRotate, faArrowLeft, faArrowsLeftRightToLine } from '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 function Header() {
     const [searchInput, setSearchInput] = useState("");
@@ -88,70 +91,71 @@ function Header() {
     return (
         <div className='w-full shadow-lg flex flex-col justify-center items-center'>
 
-            <form onSubmit={handleSubmit} className="w-1/2 mt-2 mb-4 flex justify-center items-center">
+            <form onSubmit={handleSubmit} className="w-full md:w-1/2 mt-2 mb-2 md:mb-4 flex justify-center items-center">
                 <input
                     type="text"
                     placeholder="Search"
-                    className="w-3/4 py-2 px-4 rounded-l-full border border-gray-300 focus:outline-none focus:border-blue-500"
+                    className="w-3/4 py-1 md:py-2 px-4 rounded-l-full border border-gray-300 focus:outline-none focus:border-blue-500"
                     name='content'
                     value={searchInput}
                     onChange={handleInput}
                 />
-                <input className="bg-blue-500 text-white py-2 px-4 rounded-r-full" type='submit' value='Search' />
+                <input className="bg-blue-500 text-white py-1 md:py-2 px-4 rounded-r-full" type='submit' value='Search' />
             </form>
 
             <div className="flex mb-3">
                 <ul className="flex gap-8 font-semibold">
-                    <li>
-                        <NavLink
-                            to={"/"}
-                            className={({isActive}) =>
-                                `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                            }
-                        >
-                            Home
-                        </NavLink>
-                    </li>
+                    
                     {userStatus === true && (
                         <>
+                        <li>
+                            <NavLink
+                                to={"/"}
+                                className={({isActive}) =>
+                                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
+                                }
+                            >
+                                <FontAwesomeIcon icon={faHome} />
+                            </NavLink>
+                        </li>
                             <li>
                                 <NavLink
                                     to={"/profile"}
                                     className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
+                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
                                     }
                                 >
-                                    Profile
+                                    <FontAwesomeIcon icon={faUser} />
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
                                     to={"/history"}
                                     className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
+                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
                                     }
                                 >
-                                    History
+                                    <FontAwesomeIcon icon={faClockRotateLeft} />                                    
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
                                     to={"/upload"}
                                     className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
+                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
                                     }
                                 >
-                                    Upload
+                                    <FontAwesomeIcon icon={faUpload} />
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink
                                     to={"/logout"}
                                     className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
+                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
                                     }
                                 >
-                                    Logout
+                                    <FontAwesomeIcon icon={faRightFromBracket} />
                                 </NavLink>
                             </li>
                         </>
@@ -161,23 +165,19 @@ function Header() {
                             <li>
                                 <NavLink
                                     to={"/login"}
-                                    className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                                    }
+                                    className="bg-gray-400 px-4 py-1.5 md:py-2 block rounded-2xl text-sm text-white"
                                 >
-                                    Login
+                                    Sign-In / Sign-Up
                                 </NavLink>
                             </li>
-                            <li>
+                            {/* <li>
                                 <NavLink
                                     to={"/register"}
-                                    className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-700" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                                    }
+                                    className="bg-blue-500 px-4 py-2 block rounded-2xl text-sm text-white"
                                 >
-                                    Signup
+                                    SignUp
                                 </NavLink>
-                            </li>
+                            </li> */}
                         </>
                     )}
                 </ul>
