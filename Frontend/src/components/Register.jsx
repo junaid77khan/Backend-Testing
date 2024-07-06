@@ -7,8 +7,6 @@ import LoaderPage from './LoadingPage';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
   const navigate = useNavigate()
