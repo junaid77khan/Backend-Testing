@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const[userErrMessage, setUserErrMessage] = useState("");
   const [loginData, setLoginData] = useState({
     username: '',
     password: '',
@@ -36,13 +37,13 @@ function Login() {
         body: JSON.stringify(loginData),
       });
 
-      if (!response.ok) {
-        setLoading(false);
-        console.log('Credentials are wrong');
-        throw new Error('Something went wrong while login');
+      const dataFromServer = await response.json();
+
+      if(!dataFromServer.ok) {
+        setUserErrMessage(dataFromServer?.data?.userError);
+        return;
       }
 
-      const dataFromServer = await response.json();
       const accessToken = dataFromServer.data.accessToken;
       dispatch(setTokenWithExpiry({ttl: 30000}));
       dispatch(storeATLS(accessToken));
@@ -60,7 +61,7 @@ function Login() {
 
   return (
 
-    <div className="flex flex-col h-screen justify-center items-center bg-gray-100 relative">
+    <div className="flex flex-col h-screen justify-center items-center bg-gray-100 text-xs md:text-lg">
       { 
         loading &&
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 opacity-75 flex justify-center items-center z-50">
@@ -71,8 +72,8 @@ function Login() {
         <FontAwesomeIcon icon={faArrowLeft} />
       </div>
 
-      <div className="bg-white p-10 rounded-lg shadow-md">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-5">Sign In</h2>
+      <div className="bg-white p-10 rounded-lg shadow-md ">
+        <h2 className="text-xl md:text-3xl font-semibold text-gray-800 mb-5">Sign In</h2>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div className="flex flex-col">
             <label htmlFor="username" className="text-gray-700 font-semibold">
@@ -101,6 +102,9 @@ function Login() {
               className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
             />
           </div>
+
+          {userErrMessage?.length > 0 && <span className='text-red-500 text-xs pb-2 '>{userErrMessage}</span>}
+          {userErrMessage?.length === 0 && <span className='pb-2'></span>}
 
           <button
             type="submit"

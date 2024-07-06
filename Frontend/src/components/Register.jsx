@@ -7,10 +7,16 @@ import LoaderPage from './LoadingPage';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
   const navigate = useNavigate()
   const[registering, setRegistering] = useState(false)
+  const[usernameErrMessage, setUsernameErrMessage] = useState("");
+  const[fullNameErrMessage, setFullNameErrMessage] = useState("");
+  const[emailErrMessage, setEmailErrMessage] = useState("");
+  const[passwordErrMessage, setPasswordErrMessage] = useState("");
   const dispatch = useDispatch()
   const [register, setRegister] = useState({
     username: '',
@@ -44,11 +50,16 @@ function Register() {
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      } 
-
       const dataFromServer = await response.json();
+
+      if(!dataFromServer.ok) {
+        setUsernameErrMessage(dataFromServer?.data?.usernameError);
+        setFullNameErrMessage(dataFromServer?.data?.fullNameError);
+        setEmailErrMessage(dataFromServer?.data?.emailError);
+        setPasswordErrMessage(dataFromServer?.data?.passwordError);
+        return;
+      }
+
       dispatch(setTokenWithExpiry({ttl: 30000}));
       dispatch(storeATLS(dataFromServer.data.accessToken))
       dispatch(login())
@@ -61,7 +72,7 @@ function Register() {
   };
 
   return (
-    <div>
+    <div className='w-full'>
       {
         registering &&
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 opacity-75 flex justify-center items-center z-50">
@@ -72,11 +83,11 @@ function Register() {
       <div onClick={() => navigate("/")} className='rounded-full px-6 py-1 bg-gray-300 absolute top-5 left-5'>
         <FontAwesomeIcon icon={faArrowLeft} />
       </div>
-      <div className="flex flex-col h-screen justify-center items-center bg-gray-100">
-            <div className="bg-white p-10 rounded-lg shadow-md">
-              <h2 className="text-3xl font-semibold text-gray-800 mb-5">Sign Up</h2>
-              <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-                <div className="flex flex-col">
+      <div className="flex flex-col h-screen justify-center items-center bg-gray-100 text-xs md:text-lg w-full">
+            <div className="bg-white p-10 rounded-lg shadow-md w-5/6">
+              <h2 className="text-xl md:text-3xl font-semibold text-gray-800 mb-5">Sign Up</h2>
+              <form onSubmit={handleSubmit} className="flex flex-col">
+                <div className="flex flex-col pb-2">
                   <label htmlFor="username" className="text-gray-700 font-semibold">
                     Username
                   </label>
@@ -86,11 +97,13 @@ function Register() {
                     id="username"
                     value={register.username}
                     onChange={handleInput}
-                    className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+                    className="py-1 md:py-2 px-4 rounded-md border border-gray-400 focus:outline-none w-full focus:border-blue-500"
                   />
+                  {usernameErrMessage?.length > 0 && <span className='text-red-500 text-xs pb-2'>{usernameErrMessage}</span>}
+                  {usernameErrMessage?.length === 0 && <p className='pb-2'></p>}
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col pb-2">
                   <label htmlFor="fullName" className="text-gray-700 font-semibold">
                     Fullname
                   </label>
@@ -100,11 +113,13 @@ function Register() {
                     id="fullName"
                     value={register.fullName}
                     onChange={handleInput}
-                    className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+                    className="py-1 md:py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
                   />
+                  {fullNameErrMessage?.length > 0 && <span className='text-red-500 text-xs pb-2'>{fullNameErrMessage}</span>}
+                  {fullNameErrMessage?.length === 0 && <p className='pb-2'></p>}
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col pb-2">
                   <label htmlFor="email" className="text-gray-700 font-semibold">
                     Email
                   </label>
@@ -114,11 +129,13 @@ function Register() {
                     id="email"
                     value={register.email}
                     onChange={handleInput}
-                    className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+                    className="py-1 md:py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
                   />
+                  {emailErrMessage?.length > 0 && <span className='text-red-500 text-xs pb-2'>{emailErrMessage}</span>}
+                  {emailErrMessage?.length === 0 && <p className='pb-2'></p>}
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col pb-2">
                   <label htmlFor="password" className="text-gray-700 font-semibold">
                     Password
                   </label>
@@ -129,8 +146,10 @@ function Register() {
                     id="password"
                     value={register.password}
                     onChange={handleInput}
-                    className="py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
+                    className="py-1 md:py-2 px-4 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"
                   />
+                  {passwordErrMessage?.length > 0 && <span className='text-red-500 text-xs pb-2'>{passwordErrMessage}</span>}
+                  {passwordErrMessage?.length === 0 && <p className='pb-2'></p>}
                 </div>
 
                 {/* <div className="flex flex-col">

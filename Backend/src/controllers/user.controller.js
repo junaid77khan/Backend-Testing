@@ -5,6 +5,7 @@ import { destroyOnCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose, { isValidObjectId } from "mongoose";
+import { signUpSchema } from "../schemas/signUpSchema.js";
 
 const generateAccessAndRefreshTken = async (userId) => {
   
@@ -29,11 +30,65 @@ const generateAccessAndRefreshTken = async (userId) => {
 
 const registerUser = asyncHandler( async(req, res) => {
     const {username, email, fullName, password} = req.body;
+
+    const validation = signUpSchema.safeParse(req.body);
+
+    if(!validation.success) {
+        console.log("Inside zod");
+        const usernameErrors = validation.error.format().username?._errors || [];
+        const fullNameErrors = validation.error.format().fullName?._errors || [];
+        const emailErrors = validation.error.format().email?._errors || [];
+        const passwordErrors = validation.error.format().password?._errors || [];
+        // const allErrors = validation.error.format();
+
+        return res
+        .status(400)
+        .json(
+            new ApiResponse(
+                400,
+                {
+                    "usernameError": `${usernameErrors?.length > 0 ? `${usernameErrors[0]}` : ""}`,
+                    "fullNameError": `${fullNameErrors?.length > 0 ? `${fullNameErrors[0]}` : ""}`,
+                    "emailError": `${emailErrors?.length > 0 ? `${emailErrors[0]}` : ""}`,
+                    "passwordError": `${passwordErrors?.length > 0 ? `${passwordErrors[0]}` : ""}`,
+                },
+            )
+        )
+            // return res.json(
+            //     {
+            //         success: false,
+            //         message: {
+            //             "username": `${usernameErrors?.length > 0} ? ${usernameErrors.join(', ')} : ""`,
+            //             "fullname": `${fullNameErrors?.length > 0} ? ${fullNameErrors.join(', ')} : ""`,
+            //             "email": `${emailErrors?.length > 0} ? ${emailErrors.join(', ')} : ""`,
+            //             "password": `${passwordErrors?.length > 0} ? ${passwordErrors.join(', ')} : ""`,
+            //         }
+            //     },
+            //     {
+            //         status: 400
+            //     }
+            // )
+    }
+
+    console.log("outside zod");
     
     if(
         [username, email, fullName, password].some( (field) => field?.trim === "" )
     ) {
-        throw new ApiError(400, "All fields are required")
+
+        return res
+        .status(400)
+        .json(
+            new ApiResponse(
+                400,
+                {
+                    "usernameError": `${username?.trim === "" ? "Username is required" : ""}`,
+                    "fullNameError": `${fullName?.trim === "" ? "FullName is required" : ""}`,
+                    "emailError": `${email?.trim === "" ? "Email is required" : ""}`,
+                    "passwordError": `${password?.trim === "" ? "Password is required" : ""}`,
+                },
+            )
+        )
     }
 
     
@@ -42,7 +97,17 @@ const registerUser = asyncHandler( async(req, res) => {
     })
 
     if(existedUser) {
-        throw new ApiError(409, "Username or Email already exists!!")
+        return res
+        .status(400)
+        .json(
+            new ApiResponse(
+                400,
+                {
+                    "usernameError": `${username?.length > 0 ? "Username is already exists": ""}`,
+                    "emailError": `${email?.length > 0 ? "Email is already exists": ""}`
+                },
+            )
+        )
     }
 
     // Handling images
@@ -165,7 +230,16 @@ const loginUser = asyncHandler( async(req, res) => {
 
     // check
     if( !(username) && !(email)) {
-        throw new ApiError(400, "Username or email is required")
+        return res
+        .status(400)
+        .json(
+            new ApiResponse(
+                400,
+                {
+                    "userError": "Username and password is required",
+                },
+            )
+        )
     }
 
     // check existance
@@ -176,14 +250,32 @@ const loginUser = asyncHandler( async(req, res) => {
     })
 
     if(!user) {
-        throw new ApiResponse(404, "User does not exist")
+        return res
+        .status(400)
+        .json(
+            new ApiResponse(
+                400,
+                {
+                    "userError": "User does not exists",
+                },
+            )
+        )
     }
 
     // **becrypt he bhai await to lagega
     const isPasswordValid = await user.isPasswordCorrect(password)
 
     if( !isPasswordValid ) {
-        throw new ApiError(401, "Invalid user credentials")
+        return res
+        .status(400)
+        .json(
+            new ApiResponse(
+                400,
+                {
+                    "userError": "Credentials are wrong"
+                },
+            )
+        )
     }
 
     // generating access and refresh token
