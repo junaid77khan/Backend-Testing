@@ -69,8 +69,6 @@ const registerUser = asyncHandler( async(req, res) => {
             //     }
             // )
     }
-
-    console.log("outside zod");
     
     if(
         [username, email, fullName, password].some( (field) => field?.trim === "" )

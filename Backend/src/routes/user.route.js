@@ -2,7 +2,6 @@ import { Router } from "express";
 import { loginUser, logout, registerUser, setAvatar, refreshAccessToken, changeCurrentPassword, updateUserAvatar, getUserChannelProfile, getCurrentUser, updateAccountDetails, updateUserCoverImage, getWatchHistory, getUserById, isUserLoggedIn } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middlware.js";
-import { set } from "mongoose";
 
 const router = Router()
 

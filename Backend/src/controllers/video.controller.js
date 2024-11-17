@@ -29,7 +29,6 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 owner: new mongoose.Types.ObjectId(userId)
             }
         })
-        console.log(pipeline);
     } else {
         pipeline.push({
             $match: {

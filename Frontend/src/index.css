@@ -11,6 +11,10 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #3B82F6; /* Customize the scrollbar thumb */
+    background: #ff8513; /* Customize the scrollbar thumb */
     border-radius: 5px; /* Customize the scrollbar thumb's border-radius */
+  }
+
+  body {
+    background-color: #1a202c; /* This is the equivalent of bg-gray-900 */
   }

@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player';
 
 function VideoPlayer({ videoFile }) {
     return (
-        <div className="aspect-video">
+        <div className="aspect-video bg-gray-900">
             <ReactPlayer
                 url={videoFile}
                 className=""

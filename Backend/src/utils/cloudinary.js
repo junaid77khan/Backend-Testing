@@ -16,13 +16,25 @@ const uploadOnCloudinary = async (localFilePath) => {
     try {
         if(!localFilePath) return null;
         // upload the file on cloudinary
+        
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
         })
+
+        // cloudinary.v2.uploader.upload_large(
+        //     localFilePath,
+        //     { resource_type: "auto" },
+        //     (error, result) => {
+        //       if (error) console.error(error);
+        //       else console.log(result);
+        //     }
+        //   );
+
         // file has been uploded succesfully
         // console.log("File is uploaded on cloudinary ", response.url);
         fs.unlinkSync(localFilePath)
         return response
+          
     } catch (error) {
         // there is problem in localfilepath or prblm in uploading file on cloudinary,
         // there is chances of file be malicious so we unlink this form our server,

@@ -4,8 +4,8 @@ import cookieParser from 'cookie-parser';
 const app = express()
 
 const corsConfig = {
-    origin: "https://videi-sharing-frontend.vercel.app",
-    // origin: "*",
+    // origin: "https://videi-sharing-frontend.vercel.app",
+    origin: ["http://localhost:5173", "https://videi-sharing-frontend.vercel.app"],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"]
 }; 

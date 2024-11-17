@@ -7,6 +7,7 @@ import { User } from "../models/user.model.js";
 
 const toggleSubscription = asyncHandler( async(req, res) => {
     const{ userId } = req.params
+    
     if(!isValidObjectId(userId) || !userId.trim()) {
         throw new ApiError(200, "Channel Id is invalid")
     }
@@ -125,7 +126,7 @@ const getSubscribedChannels = asyncHandler( async(req, res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200, channelsSubscribed, "User channel subscribed list fetched successfully"))
+    .json(new ApiResponse(200, channelsSubscribed.length > 0 ? true : false, "User channel subscribed list fetched successfully"))
 } )
 
 // controller to return the subscriber list of a channel

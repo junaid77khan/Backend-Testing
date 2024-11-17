@@ -6,7 +6,7 @@ import { Header } from './components'
 
 function App() {
   return (
-    <div className='scrollbar'>
+    <div className='scrollbar bg-gray-900'>
       <Provider store={store}>
         <Outlet/>
       </Provider>

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { NavLink, json } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
 import { setTokenWithExpiry } from '../store/accessTokenSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faClockRotateLeft, faUpload, faRightFromBracket, faUserPlus, faDownLeftAndUpRightToCenter, faArrowLeftRotate, faArrowLeft, faArrowsLeftRightToLine } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faUpload, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
 function Header() {
@@ -44,7 +44,6 @@ function Header() {
                         dispatch(logout());
                         setUserStatus(false);
                     }
-                            
                 }    
             } catch (error) {
                 console.error('Error checking user status:', error);
@@ -55,7 +54,6 @@ function Header() {
     
         checkUserStatus();
     }, []);
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -86,78 +84,67 @@ function Header() {
     const handleInput = (e) => {
         setSearchInput(e.target.value);
     };
-    
 
     return (
-        <div className='w-full shadow-lg flex flex-col justify-center items-center'>
-
+        <div className='w-full shadow-lg flex flex-col justify-center items-center bg-gray-900'> {/* Dark background */}
+            {/* Search Form */}
             <form onSubmit={handleSubmit} className="w-full md:w-1/2 mt-2 mb-2 md:mb-4 flex justify-center items-center">
                 <input
                     type="text"
                     placeholder="Search"
-                    className="w-3/4 py-1 md:py-2 px-4 rounded-l-full border border-gray-300 focus:outline-none focus:border-blue-500"
+                    className="w-3/4 py-1 md:py-2 px-4 rounded-l-full border border-gray-300 focus:outline-none focus:border-orange-500 text-gray-800"
                     name='content'
                     value={searchInput}
                     onChange={handleInput}
                 />
-                <input className="bg-blue-500 text-white py-1 md:py-2 px-4 rounded-r-full" type='submit' value='Search' />
+                <input className="bg-orange-600 text-white py-1 md:py-2 px-4 rounded-r-full transition-all duration-300 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400" type='submit' value='Search' />
             </form>
 
+            {/* Navigation Links */}
             <div className="flex mb-3">
-                <ul className="flex gap-8 font-semibold">
-                    
+                <ul className="flex gap-8 font-semibold text-gray-200">
                     {userStatus === true && (
                         <>
                         <li>
                             <NavLink
                                 to={"/"}
                                 className={({isActive}) =>
-                                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
+                                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-600" : "text-gray-400"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-600 lg:p-0`
                                 }
                             >
                                 <FontAwesomeIcon icon={faHome} />
                             </NavLink>
                         </li>
-                            <li>
-                                <NavLink
-                                    to={"/profile"}
-                                    className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                                    }
-                                >
-                                    <FontAwesomeIcon icon={faUser} />
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to={"/history"}
-                                    className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                                    }
-                                >
-                                    <FontAwesomeIcon icon={faClockRotateLeft} />                                    
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to={"/upload"}
-                                    className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                                    }
-                                >
-                                    <FontAwesomeIcon icon={faUpload} />
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to={"/logout"}
-                                    className={({isActive}) =>
-                                        `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-700 lg:p-0`
-                                    }
-                                >
-                                    <FontAwesomeIcon icon={faRightFromBracket} />
-                                </NavLink>
-                            </li>
+                        <li>
+                            <NavLink
+                                to={"/profile"}
+                                className={({isActive}) =>
+                                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-600" : "text-gray-400"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-600 lg:p-0`
+                                }
+                            >
+                                <FontAwesomeIcon icon={faUser} />
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={"/upload"}
+                                className={({isActive}) =>
+                                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-600" : "text-gray-400"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-600 lg:p-0`
+                                }
+                            >
+                                <FontAwesomeIcon icon={faUpload} />
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={"/logout"}
+                                className={({isActive}) =>
+                                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-orange-600" : "text-gray-400"} border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-600 lg:p-0`
+                                }
+                            >
+                                <FontAwesomeIcon icon={faRightFromBracket} />
+                            </NavLink>
+                        </li>
                         </>
                     )}
                     {!userStatus && (
@@ -165,19 +152,11 @@ function Header() {
                             <li>
                                 <NavLink
                                     to={"/login"}
-                                    className="bg-gray-400 px-4 py-1.5 md:py-2 block rounded-2xl text-sm text-white"
+                                    className="bg-orange-600 text-white px-4 py-1.5 md:py-2 block rounded-2xl text-sm transition-all duration-300 hover:bg-orange-700"
                                 >
                                     Sign-In / Sign-Up
                                 </NavLink>
                             </li>
-                            {/* <li>
-                                <NavLink
-                                    to={"/register"}
-                                    className="bg-blue-500 px-4 py-2 block rounded-2xl text-sm text-white"
-                                >
-                                    SignUp
-                                </NavLink>
-                            </li> */}
                         </>
                     )}
                 </ul>

@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Header from './Header';
 import VideoCard from './VideoCard';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import UseReactQuery from '../Custom_Hook/useReactQuery';
 import ErrorPage from './ErrorPage';
-import LoaderPage from './LoadingPage';
+import ProfileLoadingPage from './ProfileLoadingPage';  // Custom Profile Loading Page
 
 function Profile() {
-    // const [stats, setStats] = useState();
-    // const[videos, setVideos] = useState([]);
-    // const[user, setUser] = useState({})
     const token = useSelector(state => state.accessTokenSlice.token)
     const navigate = useNavigate()
 
     const stats = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/stats`, 'GET')
     const videos = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/dashboard/videos`, 'GET')
-    const user = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/users/current-user`, 'GET')
+    console.log(videos);
+    
+    let user = UseReactQuery(`${import.meta.env.VITE_API_URL}/api/v1/users/current-user`, 'GET')
+    
 
     const handleClick = (videoId) => {
-        navigate(`/v/${videoId}`, { state: videoId })
-    }
+        navigate(`/v/${videoId}`, { state: videoId });
+    };
 
     return (
-        <div className='flex flex-wrap items-center flex-col bg-gray-100 min-h-screen w-full'>
+        <div className="flex flex-wrap items-center flex-col bg-gray-900 min-h-screen w-full">
             <Header />
             {
                 (user.error || stats.error || videos.error) &&
@@ -31,65 +31,60 @@ function Profile() {
             }
             {
                 (user.loading || stats.loading || videos.loading) &&
-                <LoaderPage />
+                <ProfileLoadingPage />
             }
             {
-                
                 (!user.error && !user.loading && !videos.error && !videos.loading && !stats.error && !stats.loading &&
-                    <div className='w-full'>
-                        {/* profile section */}
-                        <div className="bg-gray-100 rounded-lg shadow-lg p-6 w-full">
-                            {/* Rounded profile photo */}
+                    <div className="w-full">
+                        {/* Profile Section */}
+                        <div className="bg-gray-800 rounded-lg shadow-xl p-6 w-full mb-6">
                             <div className="flex items-center justify-center mb-6">
-                                <img className="rounded-full h-24 w-24 object-cover" src={user.response.avatar ? user.response.avatar : 'image/null-avatar.png'} alt='Profile photo' />
+                                <img
+                                    className="rounded-full h-32 w-32 object-cover border-4 border-orange-500 hover:scale-105 transition-transform"
+                                    src={user.response.avatar ? user.response.avatar : 'image/null-avatar.png'}
+                                    alt="Profile"
+                                />
+                            </div>
+                            <div className="text-center text-white">
+                                <h2 className="text-2xl font-semibold">{user.response.fullName}</h2>
+                                <p className="text-gray-400">@{user.response.username}</p>
                             </div>
 
-                            {/* Fullname and Username */}
-                            <div className="text-center">
-                                <h2 className="text-xl font-semibold">{user.response.fullName}</h2>
-                                <p className="text-gray-600">{user.response.username}</p>
-                            </div>
+                            {/* Stats Section */}
+                            <div className="flex flex-wrap justify-center items-center gap-6 text-white mt-6">
+                                {/* Subscribers Section */}
+                                <div className="flex flex-col justify-center items-center gap-2 bg-gray-700 p-4 rounded-lg shadow-md">
+                                    <p className="text-sm text-gray-400">Subscribers</p>
+                                    <p className="text-xl font-medium">{stats?.response?.subscribers?.subscribersCount}</p>
+                                </div>
 
-                            {/* subsribers and subscribed */}
-                            <div className='flex flex-wrap flex-col justify-center items-center font-bold gap-2'>
-                                <p>Subscribers: {stats?.response?.subscribers?.subscribersCount}</p>
-                                {/* <p>Subscribed: 22</p> */}
-                            </div>
-
-                            {/* more information about profile */}
-                            <div className="mt-6">
-                                <div className="flex justify-center gap-10">
-                                    <div className="text-center">
-                                        <p className="text-gray-600">Total Views</p>
-                                        <p className="text-lg font-semibold">{stats?.response?.totalViews?.viewsCount}</p>
-                                    </div>
-                                    {/* <div className="text-center">
-                                        <p className="text-gray-600">Total Likes</p>
-                                        <p className="text-lg font-semibold">{stats?.response?.totalLikes?.likesCount}</p>
-                                    </div> */}
-                                    <div className="text-center">
-                                        <p className="text-gray-600">Total Videos</p>
-                                        <p className="text-lg font-semibold">{stats?.response?.totalVideos?.videosCount}</p>
-                                    </div>
+                                {/* Total Videos Section */}
+                                <div className="flex flex-col justify-center items-center gap-2 bg-gray-700 p-4 rounded-lg shadow-md">
+                                    <p className="text-sm text-gray-400">Total Videos</p>
+                                    <p className="text-xl font-medium">{stats?.response?.totalVideos?.videosCount}</p>
                                 </div>
                             </div>
                         </div>
-                        {/* videos section */}
+
+                        {/* Videos Section */}
                         {
                             (videos.response.length !== 0) ? (
-                                <div className='flex flex-wrap justify-start items-start min-h-screen w-full gap-4 p-4 bg-gray-200'>
+                                <div className="flex flex-wrap justify-start items-start gap-6 p-6 bg-gray-900">
                                     {   
                                         videos?.response?.map((video) => (
-                                            <div key={video._id} onClick={() => handleClick(video?._id)} className='w-80'>
-                                                <VideoCard  thumbnail={video.thumbnail} title={video.title} fullName={user.fullName} />
+                                            <div key={video._id} onClick={() => handleClick(video?._id)} className="w-80 hover:scale-105 transition-transform">
+                                                <VideoCard
+                                                    thumbnail={video.thumbnail}
+                                                    title={video.title}
+                                                    username={user.response.username}
+                                                />
                                             </div>
                                         ))
                                     }
                                 </div>
                             ) : (
-                            
-                                <div className='w-full text-xl font-semibold text-black flex flex-wrap justify-center items-center'>
-                                    No videos
+                                <div className="w-full text-xl font-semibold text-white flex flex-wrap justify-center items-center">
+                                    No videos found
                                 </div>
                             )
                         }

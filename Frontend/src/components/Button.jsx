@@ -1,18 +1,22 @@
-import React from 'react'
+import React from 'react';
 
 function Button({
     children,
     type = "button",
-    bgColor = "bg-blue-500",
-    textColor = "text-white",
+    bgColor = "bg-indigo-600",  // Updated to match dark background
+    textColor = "text-gray-200",  // Lighter text color for contrast
     className = "",
     ...props
 }) {
     return (
-        <button className={`px-3 py-2 rounded-2xl ${bgColor} ${textColor} ${className}`} {...props} type={type}>
+        <button
+            className={`px-4 py-2 rounded-xl ${bgColor} ${textColor} ${className} transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-300`}
+            {...props}
+            type={type}
+        >
             {children}
         </button>
-    )
+    );
 }
 
-export default Button
+export default Button;
