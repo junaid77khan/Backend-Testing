@@ -23,7 +23,7 @@ function Profile() {
     };
 
     return (
-        <div className="flex flex-wrap items-center flex-col bg-gray-900 min-h-screen w-full">
+        <div className="flex flex-wrap items-center flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 min-h-screen w-full">
             <Header />
             {
                 (user.error || stats.error || videos.error) &&
@@ -35,9 +35,9 @@ function Profile() {
             }
             {
                 (!user.error && !user.loading && !videos.error && !videos.loading && !stats.error && !stats.loading &&
-                    <div className="w-full">
+                    <div className="w-full bg-transparent">
                         {/* Profile Section */}
-                        <div className="bg-gray-800 rounded-lg shadow-xl p-6 w-full mb-6">
+                        <div className="rounded-lg bg-transparent shadow-xl p-6 w-full mb-6">
                             <div className="flex items-center justify-center mb-6">
                                 <img
                                     className="rounded-full h-32 w-32 object-cover border-4 border-orange-500 hover:scale-105 transition-transform"
@@ -69,7 +69,7 @@ function Profile() {
                         {/* Videos Section */}
                         {
                             (videos.response.length !== 0) ? (
-                                <div className="flex flex-wrap justify-start items-start gap-6 p-6 bg-gray-900">
+                                <div className="flex flex-wrap justify-start items-start gap-6 p-6 bg-transparent">
                                     {   
                                         videos?.response?.map((video) => (
                                             <div key={video._id} onClick={() => handleClick(video?._id)} className="w-80 hover:scale-105 transition-transform">

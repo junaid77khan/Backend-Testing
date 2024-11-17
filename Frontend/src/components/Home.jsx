@@ -18,7 +18,7 @@ function Home() {
         <>
             <Header />
             <div className="flex flex-col items-center">
-                <div className="bg-gray-900 min-h-screen p-4 w-full"> {/* Dark background */}
+                <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 min-h-screen p-4 w-full"> {/* Dark background */}
                     {videoObj.error && <ErrorPage />}
                     {videoObj.loading && <LoadingPage />} {/* Show the loading page while data is loading */}
                     {videoObj.response.length === 0 && !videoObj.loading && (

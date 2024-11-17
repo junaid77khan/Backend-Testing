@@ -60,7 +60,7 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-center items-center bg-gray-900 text-xs md:text-lg">
+    <div className="flex flex-col h-screen justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-xs md:text-lg">
       {loading && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-75 flex justify-center items-center z-50">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>

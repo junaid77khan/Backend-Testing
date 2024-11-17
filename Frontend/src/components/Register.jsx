@@ -81,7 +81,7 @@ function Register() {
         <FontAwesomeIcon icon={faArrowLeft} />
       </div>
 
-      <div className='flex flex-col h-screen justify-center items-center bg-gray-900 text-xs md:text-lg w-full'>
+      <div className='flex flex-col h-screen justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-xs md:text-lg w-full'>
         <div className='bg-gray-800 p-10 rounded-lg shadow-md w-5/6 md:w-3/6'>
           <h2 className='text-xl md:text-3xl font-semibold text-orange-500 mb-5'>Sign Up</h2>
           <form onSubmit={handleSubmit} className='flex flex-col'>

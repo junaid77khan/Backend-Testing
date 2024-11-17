@@ -171,7 +171,7 @@ function Video() {
 
   return (
     <Container>
-      <div className='flex flex-col items-center bg-gray-900'>
+      <div className='flex flex-col items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700'>
         <Header />
       </div>
       <div className="w-full h-screen flex flex-wrap justify-center items-start p-4 bg-gray-900 text-white">

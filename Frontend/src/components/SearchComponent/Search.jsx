@@ -21,7 +21,7 @@ function Search() {
     };
 
     return (
-        <div className="flex flex-col items-center bg-gray-900 min-h-screen">
+        <div className="flex flex-col items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 min-h-screen">
             <Header />
             <div className="w-full max-h-[100vh] overflow-y-auto">
                 {searchResult.error && <ErrorPage />}
